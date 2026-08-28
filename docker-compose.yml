@@ -1,0 +1,53 @@
+# Local / staging deployment of the auto-masking microservice.
+#
+#   docker compose up --build        # CPU
+#   docker compose --profile gpu up  # NVIDIA GPU (needs nvidia-container-toolkit)
+services:
+  automask:
+    build: .
+    image: ai-automask:1.0
+    ports:
+      - "8000:8000"
+    environment:
+      # One uvicorn worker per GPU: two workers would each load their own copy
+      # of the weights and fight over VRAM. Scale out with replicas, not workers.
+      AUTOMASK_DEVICE: auto
+      AUTOMASK_INFER_SIZE: "1024"
+      AUTOMASK_FP16: "1"
+      AUTOMASK_ENSEMBLE: "1"
+      AUTOMASK_BATCH_WORKERS: "2"
+      AUTOMASK_READY_THRESHOLD: "0.82"
+      AUTOMASK_REVIEW_THRESHOLD: "0.55"
+      AUTOMASK_RETENTION_HOURS: "72"
+      # AUTOMASK_API_KEY: change-me      # uncomment to require X-API-Key
+    volumes:
+      - automask-outputs:/data/outputs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8000/health"]
+      interval: 20s
+      timeout: 5s
+      retries: 4
+      start_period: 30s
+
+  automask-gpu:
+    profiles: ["gpu"]
+    build: .
+    image: ai-automask:1.0
+    ports:
+      - "8000:8000"
+    environment:
+      AUTOMASK_DEVICE: cuda
+      AUTOMASK_FP16: "1"
+    volumes:
+      - automask-outputs:/data/outputs
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+volumes:
+  automask-outputs:

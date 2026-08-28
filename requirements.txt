@@ -1,0 +1,44 @@
+# ---------------------------------------------------------------------------
+# AI Auto-Masking for Mockup Generator - runtime dependencies
+#
+# Install order matters for torch: pick the wheel that matches your CUDA runtime
+# BEFORE installing this file, otherwise pip pulls the default CPU/CUDA build.
+#
+#   # NVIDIA GPU (CUDA 12.1) - what the benchmarks in docs/EVALUATION.md used
+#   pip install torch==2.5.1 torchvision==0.20.1 --index-url https://download.pytorch.org/whl/cu121
+#
+#   # CPU only
+#   pip install torch==2.5.1 torchvision==0.20.1 --index-url https://download.pytorch.org/whl/cpu
+#
+#   pip install -r requirements.txt
+#   python scripts/download_models.py
+# ---------------------------------------------------------------------------
+
+# --- inference -------------------------------------------------------------
+torch>=2.2,<3            # BiRefNet backbone           (BSD-3-Clause)
+torchvision>=0.17,<1
+transformers>=4.40,<5    # loads BiRefNet from the Hub  (Apache-2.0)
+timm>=0.9                # BiRefNet's Swin backbone     (Apache-2.0)
+kornia>=0.7              # required by BiRefNet's remote code (Apache-2.0)
+einops>=0.7              # ditto                        (MIT)
+huggingface-hub>=0.23    # weight download              (Apache-2.0)
+onnxruntime>=1.17        # U2-Net cross-check model     (MIT)
+
+# --- image processing ------------------------------------------------------
+opencv-python-headless>=4.9   # headless: no GUI libs needed in a container
+numpy>=1.24
+pillow>=10.0             # decode + EXIF orientation
+
+# --- service ---------------------------------------------------------------
+fastapi>=0.110
+uvicorn[standard]>=0.27
+pydantic>=2.6
+python-multipart>=0.0.9  # multipart/form-data uploads
+
+# --- optional --------------------------------------------------------------
+# ultralytics>=8.3       # MobileSAM boundary refiner. AGPL-3.0 - read the licence
+#                        # note in app/segmentation/sam_refiner.py before enabling.
+
+# --- development / evaluation ---------------------------------------------
+# pytest>=8.0
+# httpx>=0.27            # FastAPI TestClient

@@ -1,0 +1,170 @@
+{
+  "id": "005_05_tote_two_handles",
+  "sku": null,
+  "source": "05_tote_two_handles.png",
+  "resolution": {
+    "width": 1200,
+    "height": 1400
+  },
+  "verdict": "READY",
+  "confidence": 0.9467,
+  "category": {
+    "value": "apparel",
+    "source": "metadata",
+    "confidence": 1.0,
+    "detail": {
+      "note": "supplied by caller"
+    }
+  },
+  "metrics": {
+    "coverage": 0.21402,
+    "edge_sharpness": 1.0,
+    "uncertain_ratio": 0.00851,
+    "boundary_complexity": 0.3342,
+    "component_penalty": 0.0,
+    "border_contact": 0.0,
+    "ensemble_iou": 0.9731,
+    "holes": 2,
+    "solidity": 0.9433
+  },
+  "qc_detail": {
+    "cross_check": {
+      "iou": 0.9731,
+      "boundary_f1": 0.7314
+    },
+    "edge_alignment": {
+      "aligned_ratio": 0.9916,
+      "tolerance_px": 2,
+      "median_gradient": 2.339,
+      "threshold": 5.848
+    },
+    "topology": {
+      "components": 1,
+      "solidity": 0.9433,
+      "component_penalty": 0.0,
+      "hole_penalty": 0.0
+    },
+    "background": {
+      "outside_is_background": 0.998,
+      "ring_px": 48247,
+      "ring_radius_px": 11
+    },
+    "shape": {
+      "bbox_fill": 0.7831,
+      "aspect": 0.73
+    },
+    "boundary_contrast": {
+      "flat_boundary_fraction": 0.0021,
+      "median_step_over_noise": 1.896,
+      "sample_px": 9082
+    },
+    "terms": {
+      "edge_alignment": 0.9916,
+      "sharpness": 1.0,
+      "topology": 1.0,
+      "coverage": 1.0,
+      "border": 1.0,
+      "bg_consistency": 1.0,
+      "shape_prior": 1.0,
+      "boundary_contrast": 1.0,
+      "ensemble": 0.9055
+    },
+    "weights": {
+      "edge_alignment": 0.2,
+      "sharpness": 0.12,
+      "topology": 0.1,
+      "coverage": 0.07,
+      "border": 0.05,
+      "bg_consistency": 0.1,
+      "shape_prior": 0.02,
+      "boundary_contrast": 0.14,
+      "ensemble": 0.2
+    },
+    "lighting": {
+      "albedo_sigma_px": 112.0,
+      "shadow_mean": 0.1872,
+      "highlight_mean": 0.1596
+    },
+    "displacement": {
+      "residual_p98": 0.02623,
+      "detail_sigma_px": 42.0,
+      "amplitude": 0.3328
+    }
+  },
+  "refine": {
+    "category": "apparel",
+    "shadow_suppressed": false,
+    "holes_kept": 2,
+    "guided": true,
+    "strands": {
+      "applied": false,
+      "blackhat_p99": 0.0157
+    },
+    "unknown_band_px": 50546,
+    "guided_radius": 9
+  },
+  "print_area": {
+    "kind": "torso",
+    "quad": [
+      [
+        417.0833435058594,
+        527.9166870117188
+      ],
+      [
+        778.75,
+        527.9166870117188
+      ],
+      [
+        778.75,
+        939.1666870117188
+      ],
+      [
+        417.0833435058594,
+        939.1666870117188
+      ]
+    ],
+    "bbox": [
+      417.0833435058594,
+      527.9166870117188,
+      361.6666564941406,
+      411.25
+    ],
+    "area_px": 149506,
+    "coverage_of_product": 0.4158,
+    "perspective_matrix": [
+      [
+        361.6666564941406,
+        0.0,
+        417.0833435058594
+      ],
+      [
+        0.0,
+        411.25,
+        527.9166870117188
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "confidence": 0.8878
+  },
+  "model": {
+    "primary": "birefnet",
+    "tried": [
+      "birefnet",
+      "u2net"
+    ]
+  },
+  "artifacts": {
+    "alpha_mask": "/artifacts/deliv_3bedec0d51ab/005_05_tote_two_handles_mask.png",
+    "cutout_rgba": "/artifacts/deliv_3bedec0d51ab/005_05_tote_two_handles_cutout.png",
+    "overlay": "/artifacts/deliv_3bedec0d51ab/005_05_tote_two_handles_overlay.jpg",
+    "shadow_map": "/artifacts/deliv_3bedec0d51ab/005_05_tote_two_handles_shadow.png",
+    "highlight_map": "/artifacts/deliv_3bedec0d51ab/005_05_tote_two_handles_highlight.png",
+    "displacement_map": "/artifacts/deliv_3bedec0d51ab/005_05_tote_two_handles_displacement.png",
+    "print_area_preview": null,
+    "trimap": "/artifacts/deliv_3bedec0d51ab/005_05_tote_two_handles_trimap.png"
+  }
+}

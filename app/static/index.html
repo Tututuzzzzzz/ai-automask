@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Auto-Masking &middot; Mockup Generator</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>&#127912;</text></svg>">
+<link rel="stylesheet" href="/ui/ui.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">&#9635;</span>
+    <div>
+      <h1>AI Auto-Masking</h1>
+      <p>Alpha masks, print areas and QC verdicts for e-commerce &amp; POD bases</p>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="status" id="status" title="Service health">
+      <span class="dot" id="status-dot"></span><span id="status-text">checking...</span>
+    </div>
+    <a class="btn ghost" href="/docs" target="_blank" rel="noopener">Swagger API</a>
+  </div>
+</header>
+
+<main>
+  <!-- ---------------------------------------------------------------- input -->
+  <section class="panel">
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-tab="files" role="tab">Upload files</button>
+      <button class="tab" data-tab="urls" role="tab">Image URLs</button>
+      <button class="tab" data-tab="manifest" role="tab">CSV / JSON manifest</button>
+      <button class="tab" data-tab="samples" role="tab">Sample set</button>
+    </div>
+
+    <div class="tabpane active" id="pane-files">
+      <div id="drop" class="dropzone">
+        <input type="file" id="file-input" accept="image/png,image/jpeg,image/webp,image/bmp,image/tiff" multiple hidden>
+        <div class="dz-inner">
+          <strong>Drop product images here</strong>
+          <span>or <button class="link" id="browse">browse</button> &middot; PNG / JPG / WEBP &middot; multiple files allowed</span>
+        </div>
+      </div>
+      <ul class="filelist" id="filelist"></ul>
+    </div>
+
+    <div class="tabpane" id="pane-urls">
+      <label class="lbl" for="url-box">One direct image URL per line</label>
+      <textarea id="url-box" rows="5" spellcheck="false"
+        placeholder="https://cdn.example.com/bases/tee-white-front.jpg&#10;https://cdn.example.com/bases/mug-11oz.png"></textarea>
+    </div>
+
+    <div class="tabpane" id="pane-manifest">
+      <label class="lbl" for="manifest-input">CSV or JSON listing base image URLs</label>
+      <input type="file" id="manifest-input" accept=".csv,.json,.tsv,.txt">
+      <p class="hint">Recognised columns: <code>image_url</code> | <code>url</code> | <code>image</code>,
+        plus optional <code>category</code> and <code>sku</code>. A bare JSON array of URLs also works.</p>
+    </div>
+
+    <div class="tabpane" id="pane-samples">
+      <p class="hint">Runs the bundled 19-image test set from <code>data/samples/</code> through the
+        pipeline server-side &mdash; the fastest way to see verdicts, reports and lighting maps
+        without uploading anything.</p>
+      <button class="btn" id="run-samples">Run bundled sample set</button>
+    </div>
+
+    <div class="controls">
+      <label class="ctl">
+        <span>Product category</span>
+        <select id="category"></select>
+      </label>
+      <label class="ctl check"><input type="checkbox" id="shadow" checked> Shadow / highlight maps</label>
+      <label class="ctl check"><input type="checkbox" id="displacement" checked> Displacement map</label>
+      <div class="spacer"></div>
+      <button class="btn primary" id="run">Generate masks</button>
+    </div>
+    <div class="progress" id="progress" hidden><div class="bar"><i id="progress-bar"></i></div><span id="progress-text"></span></div>
+    <p class="err" id="error" hidden></p>
+  </section>
+
+  <!-- --------------------------------------------------------------- results -->
+  <section id="results" hidden>
+    <div class="kpis" id="kpis"></div>
+
+    <div class="resbar">
+      <div class="filters" id="filters">
+        <button class="chip active" data-verdict="ALL">All</button>
+        <button class="chip" data-verdict="READY">READY</button>
+        <button class="chip" data-verdict="REVIEW">REVIEW</button>
+        <button class="chip" data-verdict="FAILED">FAILED</button>
+      </div>
+      <div class="viewtoggle" id="viewtoggle">
+        <button class="chip active" data-view="overlay">Overlay</button>
+        <button class="chip" data-view="mask">Mask</button>
+        <button class="chip" data-view="cutout">Cut-out</button>
+        <button class="chip" data-view="shadow">Shadow</button>
+        <button class="chip" data-view="displacement">Displace</button>
+      </div>
+      <div class="spacer"></div>
+      <a class="btn ghost" id="report-link" target="_blank" rel="noopener" hidden>Batch report</a>
+      <a class="btn ghost" id="csv-link" target="_blank" rel="noopener" hidden>Results CSV</a>
+      <a class="btn ghost" id="zip-link" hidden>Download artifacts</a>
+    </div>
+
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="panel" id="history-panel" hidden>
+    <h2>Recent jobs</h2>
+    <table class="jobs"><thead><tr><th>Job</th><th>State</th><th>Images</th>
+      <th>Automation</th><th></th></tr></thead><tbody id="history"></tbody></table>
+  </section>
+</main>
+
+<!-- ------------------------------------------------------------------ drawer -->
+<aside class="drawer" id="drawer" hidden>
+  <div class="drawer-head">
+    <div>
+      <span class="tag" id="d-verdict"></span>
+      <h3 id="d-title"></h3>
+      <p class="muted" id="d-sub"></p>
+    </div>
+    <button class="iconbtn" id="d-close" aria-label="Close">&times;</button>
+  </div>
+  <div class="drawer-body">
+    <div class="compare" id="d-compare"></div>
+    <h4>Why this verdict</h4>
+    <ul class="reasons" id="d-reasons"></ul>
+    <h4>Quality signals</h4>
+    <div class="signalbars" id="d-signals"></div>
+    <h4>Metrics</h4>
+    <table class="kv" id="d-metrics"></table>
+    <h4>Print area</h4>
+    <table class="kv" id="d-printarea"></table>
+    <h4>Timings</h4>
+    <table class="kv" id="d-timings"></table>
+    <h4>Artifacts</h4>
+    <ul class="links" id="d-links"></ul>
+  </div>
+</aside>
+<div class="scrim" id="scrim" hidden></div>
+
+<script src="/ui/ui.js"></script>
+</body>
+</html>

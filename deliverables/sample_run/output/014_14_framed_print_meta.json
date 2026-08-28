@@ -1,0 +1,166 @@
+{
+  "id": "014_14_framed_print",
+  "sku": null,
+  "source": "14_framed_print.png",
+  "resolution": {
+    "width": 1100,
+    "height": 1400
+  },
+  "verdict": "REVIEW",
+  "confidence": 0.8289,
+  "category": {
+    "value": "wall_art",
+    "source": "metadata",
+    "confidence": 1.0,
+    "detail": {
+      "note": "supplied by caller"
+    }
+  },
+  "metrics": {
+    "coverage": 0.26611,
+    "edge_sharpness": 1.0,
+    "uncertain_ratio": 0.0019,
+    "boundary_complexity": 0.0,
+    "component_penalty": 0.0,
+    "border_contact": 0.0,
+    "ensemble_iou": 0.7406,
+    "holes": 0,
+    "solidity": 0.9957
+  },
+  "qc_detail": {
+    "cross_check": {
+      "iou": 0.7406,
+      "boundary_f1": 0.1367
+    },
+    "edge_alignment": {
+      "aligned_ratio": 0.9444,
+      "tolerance_px": 2,
+      "median_gradient": 2.895,
+      "threshold": 10.805
+    },
+    "topology": {
+      "components": 1,
+      "solidity": 0.9957,
+      "component_penalty": 0.0,
+      "hole_penalty": 0.0
+    },
+    "background": {
+      "outside_is_background": 0.4973,
+      "ring_px": 29744,
+      "ring_radius_px": 11
+    },
+    "shape": {
+      "bbox_fill": 0.9875,
+      "aspect": 0.602,
+      "quad_fit": 0.9103
+    },
+    "boundary_contrast": {
+      "flat_boundary_fraction": 0.0613,
+      "median_step_over_noise": 1.945,
+      "sample_px": 5320
+    },
+    "terms": {
+      "edge_alignment": 0.9444,
+      "sharpness": 1.0,
+      "topology": 1.0,
+      "coverage": 1.0,
+      "border": 1.0,
+      "bg_consistency": 0.2946,
+      "shape_prior": 0.8414,
+      "boundary_contrast": 0.9962,
+      "ensemble": 0.5715
+    },
+    "weights": {
+      "edge_alignment": 0.2,
+      "sharpness": 0.12,
+      "topology": 0.1,
+      "coverage": 0.07,
+      "border": 0.05,
+      "bg_consistency": 0.1,
+      "shape_prior": 0.02,
+      "boundary_contrast": 0.14,
+      "ensemble": 0.2
+    },
+    "ready_veto": [
+      "sub-region of a larger object",
+      "Cross-check model disagrees"
+    ],
+    "lighting": {
+      "albedo_sigma_px": 112.0,
+      "shadow_mean": 0.0593,
+      "highlight_mean": 0.1105
+    }
+  },
+  "refine": {
+    "category": "wall_art",
+    "shadow_suppressed": false,
+    "holes_kept": 0,
+    "guided": true,
+    "unknown_band_px": 34106,
+    "guided_radius": 9
+  },
+  "print_area": {
+    "kind": "quad",
+    "quad": [
+      [
+        377.30731201171875,
+        245.4484405517578
+      ],
+      [
+        791.0510864257812,
+        304.5547180175781
+      ],
+      [
+        791.0510864257812,
+        1044.7901611328125
+      ],
+      [
+        309.7572937011719,
+        1044.7901611328125
+      ]
+    ],
+    "bbox": [
+      309.7572937011719,
+      245.4484405517578,
+      481.2937927246094,
+      799.3417358398438
+    ],
+    "area_px": 346958,
+    "coverage_of_product": 0.8466,
+    "perspective_matrix": [
+      [
+        476.9075764702715,
+        -111.02473412370537,
+        377.30731201171875
+      ],
+      [
+        83.4243452293891,
+        652.7044782520575,
+        245.4484405517578
+      ],
+      [
+        0.07984794299645429,
+        -0.14035090277841625,
+        1.0
+      ]
+    ],
+    "confidence": 0.9103
+  },
+  "model": {
+    "primary": "birefnet",
+    "tried": [
+      "birefnet",
+      "u2net"
+    ]
+  },
+  "artifacts": {
+    "alpha_mask": "/artifacts/deliv_3bedec0d51ab/014_14_framed_print_mask.png",
+    "cutout_rgba": "/artifacts/deliv_3bedec0d51ab/014_14_framed_print_cutout.png",
+    "overlay": "/artifacts/deliv_3bedec0d51ab/014_14_framed_print_overlay.jpg",
+    "shadow_map": "/artifacts/deliv_3bedec0d51ab/014_14_framed_print_shadow.png",
+    "highlight_map": "/artifacts/deliv_3bedec0d51ab/014_14_framed_print_highlight.png",
+    "displacement_map": null,
+    "print_area_preview": null,
+    "trimap": "/artifacts/deliv_3bedec0d51ab/014_14_framed_print_trimap.png"
+  }
+}

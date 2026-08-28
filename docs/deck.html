@@ -1,0 +1,1116 @@
+<title>Matte Channel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+/* ===========================================================================
+   Matte Channel - pitch deck for an auto-masking pipeline.
+   Identity borrows from the subject's own world: the transparency checkerboard,
+   the trimap's black/grey/white triad, and a matte-magenta accent of the kind
+   compositing tools use to mark a key. Status hues are reserved for verdicts.
+   =========================================================================== */
+:root{
+  color-scheme: light;
+  --ground:#F3F2EF; --panel:#FBFAF8; --panel-2:#FFFFFF; --plate:#EAE8E3;
+  --line:#DEDCD6; --line-2:#C9C6BE;
+  --ink:#14181C; --ink-2:#4E545C; --muted:#868D96;
+  --accent:#B32E72; --accent-soft:rgba(179,46,114,.10);
+  --good:#12703C; --warn:#D9930A; --crit:#A8321F;
+  --good-soft:rgba(18,112,60,.12); --warn-soft:rgba(217,147,10,.14); --crit-soft:rgba(168,50,31,.12);
+  --check-a:#E4E2DC; --check-b:#F3F2EF;
+  --grid:#E3E1DA; --axis:#C4C1B9;
+  --shadow:0 1px 2px rgba(20,24,28,.05), 0 8px 24px -16px rgba(20,24,28,.18);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --ground:#0C1014; --panel:#12161C; --panel-2:#171D25; --plate:#0F141A;
+    --line:#232B36; --line-2:#313B48;
+    --ink:#E9EDF2; --ink-2:#9AA5B3; --muted:#6C7887;
+    --accent:#E14C97; --accent-soft:rgba(225,76,151,.14);
+    --good:#27925A; --warn:#EBAE33; --crit:#DB5B48;
+    --good-soft:rgba(39,146,90,.16); --warn-soft:rgba(235,174,51,.16); --crit-soft:rgba(219,91,72,.16);
+    --check-a:#161B22; --check-b:#0F1419;
+    --grid:#1E2530; --axis:#2C3543;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --ground:#0C1014; --panel:#12161C; --panel-2:#171D25; --plate:#0F141A;
+  --line:#232B36; --line-2:#313B48;
+  --ink:#E9EDF2; --ink-2:#9AA5B3; --muted:#6C7887;
+  --accent:#E14C97; --accent-soft:rgba(225,76,151,.14);
+  --good:#27925A; --warn:#EBAE33; --crit:#DB5B48;
+  --good-soft:rgba(39,146,90,.16); --warn-soft:rgba(235,174,51,.16); --crit-soft:rgba(219,91,72,.16);
+  --check-a:#161B22; --check-b:#0F1419;
+  --grid:#1E2530; --axis:#2C3543;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font:400 16px/1.62 "Source Sans 3","Segoe UI",system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{margin:0; font-family:Archivo,"Segoe UI",system-ui,sans-serif; text-wrap:balance}
+p{margin:0}
+a{color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent-soft)}
+a:hover{border-bottom-color:currentColor}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
+.mono{font-family:"IBM Plex Mono",ui-monospace,Consolas,monospace}
+.num{font-variant-numeric:tabular-nums}
+
+/* --- the transparency checkerboard: the one texture in the system --------- */
+.checker{
+  background-color:var(--check-b);
+  background-image:
+    linear-gradient(45deg,var(--check-a) 25%,transparent 25%,transparent 75%,var(--check-a) 75%),
+    linear-gradient(45deg,var(--check-a) 25%,var(--check-b) 25%,var(--check-b) 75%,var(--check-a) 75%);
+  background-size:16px 16px; background-position:0 0,8px 8px;
+}
+
+/* --- shell ---------------------------------------------------------------- */
+header.top{
+  position:sticky; top:0; z-index:30; background:var(--ground);
+  border-bottom:1px solid var(--line);
+}
+.top-in{
+  max-width:1180px; margin:0 auto; padding:14px 28px;
+  display:flex; align-items:center; gap:18px; flex-wrap:wrap;
+}
+.wordmark{display:flex; align-items:baseline; gap:9px}
+.wordmark b{
+  font-family:Archivo; font-weight:800; font-size:16px; letter-spacing:-.02em;
+}
+.wordmark span{font-size:12.5px; color:var(--muted)}
+.top .spacer{flex:1}
+.top .badge{
+  font-family:"IBM Plex Mono"; font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--ink-2); border:1px solid var(--line); border-radius:999px; padding:4px 11px;
+}
+.checkband{height:6px}
+
+.shell{max-width:1180px; margin:0 auto; padding:0 28px; display:flex; gap:34px}
+nav.rail{
+  width:132px; flex:0 0 132px; padding:52px 0 80px;
+  position:sticky; top:76px; align-self:flex-start; max-height:calc(100vh - 96px);
+  overflow:auto;
+}
+nav.rail ol{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px}
+nav.rail a{
+  display:flex; gap:9px; align-items:baseline; padding:5px 8px; border:0; border-radius:5px;
+  font-size:12.5px; color:var(--muted); line-height:1.35;
+}
+nav.rail a i{
+  font-family:"IBM Plex Mono"; font-size:10.5px; font-style:normal; color:var(--line-2);
+  font-variant-numeric:tabular-nums;
+}
+nav.rail a:hover{color:var(--ink-2); background:var(--panel)}
+nav.rail a[aria-current="true"]{color:var(--ink); background:var(--panel); box-shadow:inset 2px 0 0 var(--accent)}
+nav.rail a[aria-current="true"] i{color:var(--accent)}
+
+main{flex:1; min-width:0; padding:44px 0 120px; display:flex; flex-direction:column; gap:22px}
+
+/* --- slide panels --------------------------------------------------------- */
+section.slide{
+  background:var(--panel); border:1px solid var(--line); border-radius:4px;
+  padding:30px 32px 34px; scroll-margin-top:88px; box-shadow:var(--shadow);
+}
+.eyebrow{
+  display:flex; align-items:center; gap:12px; margin-bottom:18px;
+  font-family:"IBM Plex Mono"; font-size:11px; font-weight:500; letter-spacing:.13em;
+  text-transform:uppercase; color:var(--muted);
+}
+.eyebrow b{color:var(--accent); font-weight:600}
+.eyebrow hr{flex:1; height:1px; border:0; background:var(--line); margin:0}
+.slide h2{font-size:27px; font-weight:700; letter-spacing:-.022em; line-height:1.16}
+.slide h2 + .lede{margin-top:11px; color:var(--ink-2); font-size:17px; max-width:64ch}
+.slide h3{
+  font-size:12px; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--muted); font-family:"IBM Plex Mono";
+}
+.body{margin-top:20px; display:flex; flex-direction:column; gap:18px}
+.body p{max-width:68ch; color:var(--ink-2)}
+.body p strong{color:var(--ink); font-weight:600}
+.cols{display:grid; grid-template-columns:1fr 1fr; gap:22px}
+.cols-3{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+@media (max-width:840px){.cols,.cols-3{grid-template-columns:1fr}}
+
+/* --- hero ----------------------------------------------------------------- */
+section.hero{padding:0; overflow:hidden}
+.hero-plate{padding:46px 32px 40px; border-bottom:1px solid var(--line)}
+.hero-kicker{
+  font-family:"IBM Plex Mono"; font-size:11.5px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:20px;
+}
+.hero h1{
+  font-size:clamp(34px,5.4vw,58px); font-weight:800; letter-spacing:-.035em; line-height:1.02;
+}
+.hero h1 em{font-style:normal; color:var(--accent)}
+.hero .sub{margin-top:16px; font-size:18px; color:var(--ink-2); max-width:58ch}
+.claim{
+  margin:26px 0 0; padding:18px 22px; background:var(--panel-2);
+  border:1px solid var(--line); border-left:2px solid var(--accent); border-radius:3px;
+  font-size:17px; max-width:66ch;
+}
+.claim strong{font-weight:600}
+.hero-stats{display:grid; grid-template-columns:repeat(4,1fr); background:var(--panel)}
+@media (max-width:840px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+.hstat{padding:20px 22px 22px; border-right:1px solid var(--line); border-top:1px solid transparent}
+.hstat:last-child{border-right:0}
+.hstat .v{font-family:Archivo; font-weight:700; font-size:31px; letter-spacing:-.03em; line-height:1}
+.hstat .l{
+  margin-top:7px; font-family:"IBM Plex Mono"; font-size:10.5px; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--muted);
+}
+.hstat .n{margin-top:3px; font-size:12.5px; color:var(--ink-2)}
+
+/* --- stat tiles ----------------------------------------------------------- */
+.tiles{display:grid; grid-template-columns:repeat(auto-fit,minmax(146px,1fr)); gap:12px}
+.tile{background:var(--panel-2); border:1px solid var(--line); border-radius:3px; padding:14px 16px}
+.tile .v{font-family:Archivo; font-weight:700; font-size:25px; letter-spacing:-.028em; line-height:1.05}
+.tile .l{
+  margin-top:6px; font-family:"IBM Plex Mono"; font-size:10px; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--muted);
+}
+.tile .n{margin-top:4px; font-size:12.5px; color:var(--ink-2)}
+.tile.good .v{color:var(--good)} .tile.warn .v{color:var(--warn)} .tile.crit .v{color:var(--crit)}
+
+/* --- tables --------------------------------------------------------------- */
+.tw{overflow-x:auto; border:1px solid var(--line); border-radius:3px; background:var(--panel-2)}
+table{width:100%; border-collapse:collapse; font-size:14px}
+caption{
+  text-align:left; padding:12px 14px 10px; font-family:"IBM Plex Mono"; font-size:11px;
+  letter-spacing:.09em; text-transform:uppercase; color:var(--muted); border-bottom:1px solid var(--line);
+}
+th,td{padding:9px 14px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top}
+thead th{
+  font-family:"IBM Plex Mono"; font-size:10.5px; font-weight:500; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--muted); white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right; font-variant-numeric:tabular-nums; font-family:"IBM Plex Mono"; font-size:13px}
+tbody tr:hover{background:var(--accent-soft)}
+
+/* --- verdict pills -------------------------------------------------------- */
+.pill{
+  display:inline-flex; align-items:center; gap:6px; padding:2px 9px 2px 7px; border-radius:999px;
+  font-family:"IBM Plex Mono"; font-size:10.5px; font-weight:600; letter-spacing:.07em; white-space:nowrap;
+}
+.pill svg{width:9px; height:9px; flex:0 0 9px}
+.pill.ready{background:var(--good-soft); color:var(--good)}
+.pill.review{background:var(--warn-soft); color:var(--warn)}
+.pill.failed{background:var(--crit-soft); color:var(--crit)}
+
+/* --- weight bars (QC signals) --------------------------------------------- */
+.sig{display:flex; flex-direction:column; gap:7px}
+.sigrow{display:grid; grid-template-columns:170px 76px 1fr; gap:13px; align-items:baseline; font-size:14px}
+@media (max-width:700px){.sigrow{grid-template-columns:1fr; gap:3px}}
+.sigrow .name{font-family:"IBM Plex Mono"; font-size:12.5px; color:var(--ink)}
+.sigrow .track{position:relative; height:7px; border-radius:2px; background:var(--plate); top:-2px}
+.sigrow .track i{display:block; height:100%; border-radius:2px; background:var(--accent)}
+.sigrow .track b{
+  position:absolute; right:-30px; top:-6px; font-family:"IBM Plex Mono"; font-size:11px;
+  color:var(--muted); font-weight:400;
+}
+.sigrow .what{color:var(--ink-2); font-size:13.5px}
+
+/* --- pipeline diagram ----------------------------------------------------- */
+.pipe{overflow-x:auto; padding:4px 0 2px}
+.pipe svg{display:block; min-width:660px; width:100%; height:auto}
+
+/* --- charts --------------------------------------------------------------- */
+figure.chart{margin:0; background:var(--panel-2); border:1px solid var(--line); border-radius:3px; padding:16px 18px 12px}
+figure.chart figcaption{
+  font-family:Archivo; font-weight:600; font-size:15px; letter-spacing:-.012em; color:var(--ink);
+  margin-bottom:3px;
+}
+figure.chart .sub{font-size:13px; color:var(--ink-2); margin-bottom:12px}
+.legend{display:flex; gap:16px; flex-wrap:wrap; margin-top:10px; font-size:12.5px; color:var(--ink-2)}
+.legend span{display:inline-flex; align-items:center; gap:6px}
+.legend svg{width:11px; height:11px}
+.chartbox{position:relative}
+.chartbox svg{display:block; width:100%; height:auto; overflow:visible}
+.tip{
+  position:absolute; pointer-events:none; opacity:0; transition:opacity .1s;
+  background:var(--ink); color:var(--ground); border-radius:3px; padding:7px 10px;
+  font-size:12px; line-height:1.45; white-space:nowrap; z-index:5;
+  box-shadow:0 6px 18px -8px rgba(0,0,0,.5);
+}
+.tip b{font-family:"IBM Plex Mono"; font-weight:600; font-variant-numeric:tabular-nums}
+.tip.on{opacity:1}
+.axlabel{font-family:"IBM Plex Mono"; font-size:10px; fill:var(--muted); letter-spacing:.06em}
+.axtick{font-family:"IBM Plex Mono"; font-size:10px; fill:var(--muted); font-variant-numeric:tabular-nums}
+.annot{font-family:"IBM Plex Mono"; font-size:10.5px; fill:var(--ink-2)}
+
+/* --- misc ----------------------------------------------------------------- */
+ul.plain{margin:0; padding-left:19px; color:var(--ink-2); display:flex; flex-direction:column; gap:8px}
+ul.plain li strong{color:var(--ink); font-weight:600}
+ol.steps{margin:0; padding:0; list-style:none; counter-reset:s; display:flex; flex-direction:column; gap:12px}
+ol.steps li{counter-increment:s; display:grid; grid-template-columns:26px 1fr; gap:13px; color:var(--ink-2)}
+ol.steps li::before{
+  content:counter(s,decimal-leading-zero); font-family:"IBM Plex Mono"; font-size:11px;
+  color:var(--accent); padding-top:4px;
+}
+ol.steps li strong{color:var(--ink); font-weight:600}
+pre{
+  margin:0; overflow-x:auto; background:var(--plate); border:1px solid var(--line);
+  border-radius:3px; padding:14px 16px; font-family:"IBM Plex Mono"; font-size:12.5px;
+  line-height:1.65; color:var(--ink-2);
+}
+pre b{color:var(--ink); font-weight:500}
+.callout{
+  border:1px solid var(--line); border-left:2px solid var(--accent); border-radius:3px;
+  background:var(--panel-2); padding:15px 18px; font-size:15px; color:var(--ink-2); max-width:70ch;
+}
+.callout strong{color:var(--ink); font-weight:600}
+footer.end{
+  max-width:1180px; margin:0 auto; padding:26px 28px 60px; color:var(--muted); font-size:13px;
+  border-top:1px solid var(--line); display:flex; gap:18px; flex-wrap:wrap; align-items:baseline;
+}
+@media (max-width:900px){
+  nav.rail{display:none}
+  .shell{padding:0 16px}
+  section.slide{padding:24px 20px 28px}
+  .hero-plate{padding:34px 20px 30px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
+</style>
+
+<header class="top">
+  <div class="top-in">
+    <div class="wordmark">
+      <b>MATTE&nbsp;CHANNEL</b>
+      <span>AI auto-masking for the mockup generator</span>
+    </div>
+    <div class="spacer"></div>
+    <div class="badge">AI Hackathon &middot; 14 slides</div>
+  </div>
+  <div class="checkband checker"></div>
+</header>
+
+<div class="shell">
+  <nav class="rail" aria-label="Slides">
+    <ol id="rail"></ol>
+  </nav>
+
+  <main>
+
+  <!-- 01 ================================================================== -->
+  <section class="slide hero" id="s1" data-title="Title">
+    <div class="hero-plate">
+      <div class="hero-kicker">Slide 01 &middot; E-commerce &amp; POD base pipeline</div>
+      <h1>Any model can cut out a mug.<br>Ours knows <em>when it got it wrong.</em></h1>
+      <p class="sub">Automatic alpha masks, print areas and lighting layers for
+        product bases &mdash; with a self-assessed <span class="mono">READY / REVIEW / FAILED</span>
+        verdict that decides what a designer never has to open.</p>
+      <p class="claim"><strong>The claim, and it is measured:</strong> on a labelled
+        19-base test set, every mask the system published without human review scored
+        <span class="mono num">IoU&nbsp;&ge;&nbsp;0.983</span>, and every defective mask
+        landed in the review queue. Zero false accepts, zero missed defects.</p>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="v num">0.9985</div><div class="l">Median IoU</div>
+        <div class="n">mean 0.927 across 19 bases</div></div>
+      <div class="hstat"><div class="v num">73.7%</div><div class="l">Automation rate</div>
+        <div class="n">on a deliberately hard set</div></div>
+      <div class="hstat"><div class="v num">2.19s</div><div class="l">Per mask</div>
+        <div class="n">4&nbsp;GB laptop GPU</div></div>
+      <div class="hstat"><div class="v num">0.81</div><div class="l">Confidence &harr; IoU</div>
+        <div class="n">rank correlation &mdash; the score means something</div></div>
+    </div>
+  </section>
+
+  <!-- 02 ================================================================== -->
+  <section class="slide" id="s2" data-title="The bottleneck">
+    <div class="eyebrow"><b>Slide 02</b><span>The bottleneck</span><hr></div>
+    <h2>Every new product base costs 30&ndash;90 minutes of Photoshop</h2>
+    <p class="lede">Cut the background, split the shadow and highlight layers, map the
+      print coordinates. Four manual steps, once per SKU, forever.</p>
+    <div class="body">
+      <div class="tiles">
+        <div class="tile"><div class="v num">45 min</div><div class="l">Per base</div>
+          <div class="n">median, by hand</div></div>
+        <div class="tile"><div class="v num">750 h</div><div class="l">Per 1,000 bases</div>
+          <div class="n">1&ndash;2 full-time designers</div></div>
+        <div class="tile"><div class="v num">4&ndash;6 wk</div><div class="l">Queue depth</div>
+          <div class="n">blocks the catalogue, not just design</div></div>
+        <div class="tile"><div class="v num">~$9</div><div class="l">Cost per base</div>
+          <div class="n">blended designer rate</div></div>
+      </div>
+      <p>The errors are systematic too, and they are the ones customers notice: a
+        clipped sleeve, black fringe where the model's hair crossed the shoulder, a
+        design that sits on the garment like a sticker because the fold shading was
+        never separated.</p>
+    </div>
+  </section>
+
+  <!-- 03 ================================================================== -->
+  <section class="slide" id="s3" data-title="Why a model isn't enough">
+    <div class="eyebrow"><b>Slide 03</b><span>Why a segmentation model alone does not fix it</span><hr></div>
+    <h2>A model always returns <em>something</em></h2>
+    <p class="lede">That is the whole problem. Good open segmentation models exist; the
+      missing piece is knowing which of their thousand outputs to trust.</p>
+    <div class="body">
+      <div class="callout">Without a trustworthy confidence signal, a designer still has
+        to open all 1,000 files to find the 50 bad ones &mdash; and <strong>the bottleneck has
+        not moved at all</strong>. Worse: one bad mask on a live product page costs more than
+        the review it skipped.</div>
+      <p>Slide 06 shows the specific mask that makes this concrete: sharp, clean,
+        perfectly anti-aliased &mdash; and cut around completely the wrong object. Every
+        edge-quality metric is happy with it.</p>
+      <p><strong>So the deliverable is not a mask.</strong> It is a mask plus an auditable
+        decision about that mask.</p>
+    </div>
+  </section>
+
+  <!-- 04 ================================================================== -->
+  <section class="slide" id="s4" data-title="What we built">
+    <div class="eyebrow"><b>Slide 04</b><span>What we built</span><hr></div>
+    <h2>One microservice, eight stages, four ways in</h2>
+    <div class="body">
+      <div class="pipe" role="img"
+        aria-label="Pipeline: decode, BiRefNet segmentation, U2-Net cross-check, category
+        classification, edge refinement, quality check, print area, lighting maps. The
+        quality check routes each base to READY, REVIEW or FAILED.">
+        <svg viewBox="0 0 980 236" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="ar" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M0 0 L8 4 L0 8 z" fill="var(--line-2)"/>
+            </marker>
+          </defs>
+          <!-- inputs -->
+          <g class="mono" font-size="10.5" fill="var(--ink-2)">
+            <text x="0" y="30">upload file(s)</text>
+            <text x="0" y="52">direct image URL</text>
+            <text x="0" y="74">CSV / JSON manifest</text>
+            <text x="0" y="96">drop folder</text>
+          </g>
+          <path d="M118 26 L154 26 M118 48 L154 48 M118 70 L154 70 M118 92 L154 92"
+                stroke="var(--line-2)" stroke-width="1" marker-end="url(#ar)"/>
+          <!-- stages -->
+          <g>
+            <rect x="164" y="12" width="96" height="96" rx="3" fill="var(--plate)" stroke="var(--line)"/>
+            <text class="mono" x="212" y="52" font-size="10.5" fill="var(--ink)" text-anchor="middle">FastAPI</text>
+            <text class="mono" x="212" y="68" font-size="9.5" fill="var(--muted)" text-anchor="middle">ingest + jobs</text>
+          </g>
+          <path d="M264 60 L300 60" stroke="var(--line-2)" stroke-width="1" marker-end="url(#ar)"/>
+          <g>
+            <rect x="310" y="12" width="112" height="96" rx="3" fill="var(--panel)" stroke="var(--accent)"/>
+            <text class="mono" x="366" y="42" font-size="10.5" fill="var(--ink)" text-anchor="middle">BiRefNet</text>
+            <text class="mono" x="366" y="57" font-size="9.5" fill="var(--muted)" text-anchor="middle">MIT &middot; 2 passes</text>
+            <text class="mono" x="366" y="78" font-size="9.5" fill="var(--muted)" text-anchor="middle">+ U2-Net</text>
+            <text class="mono" x="366" y="92" font-size="9.5" fill="var(--muted)" text-anchor="middle">cross-check</text>
+          </g>
+          <path d="M426 60 L462 60" stroke="var(--line-2)" stroke-width="1" marker-end="url(#ar)"/>
+          <g>
+            <rect x="472" y="12" width="104" height="96" rx="3" fill="var(--plate)" stroke="var(--line)"/>
+            <text class="mono" x="524" y="44" font-size="10.5" fill="var(--ink)" text-anchor="middle">refine</text>
+            <text class="mono" x="524" y="60" font-size="9.5" fill="var(--muted)" text-anchor="middle">shadow, hair,</text>
+            <text class="mono" x="524" y="74" font-size="9.5" fill="var(--muted)" text-anchor="middle">guided filter</text>
+          </g>
+          <path d="M580 60 L616 60" stroke="var(--line-2)" stroke-width="1" marker-end="url(#ar)"/>
+          <g>
+            <rect x="626" y="12" width="104" height="96" rx="3" fill="var(--panel)" stroke="var(--accent)"/>
+            <text class="mono" x="678" y="44" font-size="10.5" fill="var(--ink)" text-anchor="middle">QUALITY</text>
+            <text class="mono" x="678" y="59" font-size="10.5" fill="var(--ink)" text-anchor="middle">CHECK</text>
+            <text class="mono" x="678" y="80" font-size="9.5" fill="var(--muted)" text-anchor="middle">9 signals</text>
+          </g>
+          <!-- verdicts -->
+          <path d="M734 34 L788 34 M734 60 L788 60 M734 86 L788 86"
+                stroke="var(--line-2)" stroke-width="1" marker-end="url(#ar)"/>
+          <g class="mono" font-size="10.5">
+            <text x="798" y="38" fill="var(--good)">READY &rarr; publish</text>
+            <text x="798" y="64" fill="var(--warn)">REVIEW &rarr; designer</text>
+            <text x="798" y="90" fill="var(--crit)">FAILED &rarr; reject</text>
+          </g>
+          <!-- artifacts row -->
+          <path d="M678 112 L678 146" stroke="var(--line-2)" stroke-width="1" marker-end="url(#ar)"/>
+          <path d="M524 112 L524 146" stroke="var(--line-2)" stroke-width="1" marker-end="url(#ar)"/>
+          <rect x="164" y="152" width="700" height="66" rx="3" fill="var(--plate)" stroke="var(--line)"/>
+          <text class="mono" x="180" y="174" font-size="10" fill="var(--muted)">ARTIFACTS &mdash; all at the exact source resolution</text>
+          <text class="mono" x="180" y="196" font-size="10.5" fill="var(--ink)">alpha mask &nbsp;·&nbsp; RGBA cut-out &nbsp;·&nbsp; trimap &nbsp;·&nbsp; shadow &nbsp;·&nbsp; highlight &nbsp;·&nbsp; displacement</text>
+          <text class="mono" x="180" y="211" font-size="10.5" fill="var(--ink)">print-area quad + 3&times;3 homography &nbsp;·&nbsp; sidecar JSON &nbsp;·&nbsp; batch report &nbsp;·&nbsp; CSV</text>
+        </svg>
+      </div>
+      <div class="cols">
+        <div>
+          <h3>Deliberate choices</h3>
+          <ul class="plain" style="margin-top:10px">
+            <li><strong>BiRefNet (MIT)</strong> as the primary matte &mdash; state of the art on
+              high-resolution boundaries, and licensed for commercial use.</li>
+            <li><strong>Two-pass ROI refinement</strong>: the second pass runs on a crop around
+              the product, so a garment filling 40% of a 4000&nbsp;px frame gets 2.5&times; the
+              sampling density on its own edge.</li>
+            <li><strong>Three-deep backend registry</strong> &mdash; BiRefNet &rarr; U2-Net &rarr; GrabCut.
+              A missing weight file degrades the service instead of failing the request.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Hard guarantees</h3>
+          <ul class="plain" style="margin-top:10px">
+            <li>The mask is <strong>never resized</strong>. EXIF orientation is applied once, on
+              load, and those pixel dimensions become the contract for every artifact.</li>
+            <li>A bad URL or corrupt file is a <strong>result row, not an exception</strong> &mdash; one
+              dead CDN link cannot kill a 500-image batch.</li>
+            <li>Every QC term ships in the response, so a verdict is auditable rather
+              than a number.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 ================================================================== -->
+  <section class="slide" id="s5" data-title="Accuracy">
+    <div class="eyebrow"><b>Slide 05</b><span>Mask accuracy</span><hr></div>
+    <h2>Measured against exact ground truth</h2>
+    <p class="lede">The 19-base test set is rendered, so the alpha channel is known
+      exactly. These are measurements, not impressions &mdash; and the set is adversarial by
+      construction.</p>
+    <div class="body">
+      <div class="tiles">
+        <div class="tile"><div class="v num">0.927</div><div class="l">Mean IoU</div>
+          <div class="n">median 0.9985</div></div>
+        <div class="tile"><div class="v num">0.874</div><div class="l">Boundary F1</div>
+          <div class="n">&plusmn;2&nbsp;px tolerance</div></div>
+        <div class="tile"><div class="v num">0.028</div><div class="l">Alpha MAE</div>
+          <div class="n">trimap band 0.088</div></div>
+        <div class="tile"><div class="v num">79%</div><div class="l">IoU &ge; 0.95</div>
+          <div class="n">89% at &ge; 0.75</div></div>
+        <div class="tile"><div class="v num">100%</div><div class="l">Category detected</div>
+          <div class="n">19/19, heuristics only</div></div>
+      </div>
+      <div class="tw">
+        <table>
+          <caption>Per category &mdash; and the hard case each one hides</caption>
+          <thead><tr><th>Category</th><th class="n">n</th><th class="n">Mean IoU</th>
+            <th class="n">Boundary F1</th><th>Hardest scene in the bucket</th></tr></thead>
+          <tbody>
+            <tr><td>apparel</td><td class="n">7</td><td class="n">0.964</td><td class="n">0.936</td>
+              <td>hair falling across a worn tee</td></tr>
+            <tr><td>accessory</td><td class="n">4</td><td class="n">0.942</td><td class="n">0.864</td>
+              <td>mousepad among desk clutter</td></tr>
+            <tr><td>wall_art</td><td class="n">4</td><td class="n">0.936</td><td class="n">0.785</td>
+              <td>print inside a dark frame</td></tr>
+            <tr><td>drinkware</td><td class="n">4</td><td class="n">0.839</td><td class="n">0.866</td>
+              <td>white ceramic on a white sweep</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Apparel &mdash; the most complex boundaries, and the category POD cares about most
+        &mdash; scores highest, because that is where the refinement stage does the most work.
+        Drinkware's mean is dragged down by one scene at 0.36; the other three average
+        <span class="mono num">0.998</span>.</p>
+    </div>
+  </section>
+
+  <!-- 06 ================================================================== -->
+  <section class="slide" id="s6" data-title="Routing quality">
+    <div class="eyebrow"><b>Slide 06</b><span>Routing quality &mdash; the slide that matters</span><hr></div>
+    <h2>Mean IoU describes the model. This describes the system.</h2>
+    <p class="lede">Every point below is one base. The vertical line is the READY
+      threshold; the horizontal line is the quality floor a published mask must clear.
+      The top-right quadrant should be the only place a published mask ever appears.</p>
+    <div class="body">
+      <figure class="chart">
+        <figcaption>Self-assessed confidence vs. true IoU</figcaption>
+        <div class="sub">19 bases &middot; circles were auto-published, triangles were sent to a
+          designer &middot; hover any point for its scene</div>
+        <div class="chartbox" id="scatterBox">
+          <svg id="scatter" viewBox="0 0 720 400" role="img"
+            aria-label="Scatter plot of self-assessed confidence against true IoU. All
+            fourteen auto-published bases sit above IoU 0.98 and above confidence 0.93.
+            The five reviewed bases spread from IoU 0.36 to 1.0."></svg>
+          <div class="tip" id="scatterTip"></div>
+        </div>
+        <div class="legend">
+          <span><svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="4.6" fill="var(--good)"/></svg>
+            READY &mdash; auto-published (14)</span>
+          <span><svg viewBox="0 0 12 12"><path d="M6 1.4 L11 10.6 H1 z" fill="var(--warn)"/></svg>
+            REVIEW &mdash; sent to a designer (5)</span>
+          <span><svg viewBox="0 0 12 12"><rect x="1.6" y="1.6" width="8.8" height="8.8" fill="none" stroke="var(--muted)" stroke-dasharray="2 2"/></svg>
+            guide lines: READY threshold &amp; quality floor</span>
+        </div>
+      </figure>
+
+      <div class="cols-3">
+        <div class="tile good"><div class="v num">0.9975</div><div class="l">Mean IoU, READY</div>
+          <div class="n">worst published mask 0.9834</div></div>
+        <div class="tile warn"><div class="v num">0.7297</div><div class="l">Mean IoU, REVIEW</div>
+          <div class="n">contains 100% of the defects</div></div>
+        <div class="tile"><div class="v num">0.81</div><div class="l">Rank correlation</div>
+          <div class="n">confidence orders true quality</div></div>
+      </div>
+
+      <div class="tw">
+        <table>
+          <caption>The five reviewed bases &mdash; was flagging each one right?</caption>
+          <thead><tr><th>Base</th><th>Verdict</th><th class="n">True IoU</th>
+            <th>Why it was flagged</th><th>Right call?</th></tr></thead>
+          <tbody>
+            <tr><td>mug on cluttered desk</td>
+              <td><span class="pill review"><svg viewBox="0 0 12 12"><path d="M6 1 L11 11 H1 z" fill="currentColor"/></svg>REVIEW</span></td>
+              <td class="n">0.360</td>
+              <td>cross-check disagreed (0.54); silhouette atypical for drinkware</td>
+              <td><strong>Yes</strong> &mdash; the mask swallowed adjacent clutter</td></tr>
+            <tr><td>print in a dark frame</td>
+              <td><span class="pill review"><svg viewBox="0 0 12 12"><path d="M6 1 L11 11 H1 z" fill="currentColor"/></svg>REVIEW</span></td>
+              <td class="n">0.743</td>
+              <td>only 22% of the ring outside the mask looks like background</td>
+              <td><strong>Yes</strong> &mdash; it cut the print, left the frame</td></tr>
+            <tr><td>mousepad on a desk</td>
+              <td><span class="pill review"><svg viewBox="0 0 12 12"><path d="M6 1 L11 11 H1 z" fill="currentColor"/></svg>REVIEW</span></td>
+              <td class="n">0.769</td>
+              <td>cross-check disagreed (0.68)</td>
+              <td><strong>Yes</strong> &mdash; clutter fused to the product blob</td></tr>
+            <tr><td>tee on a model, hair</td>
+              <td><span class="pill review"><svg viewBox="0 0 12 12"><path d="M6 1 L11 11 H1 z" fill="currentColor"/></svg>REVIEW</span></td>
+              <td class="n">0.776</td>
+              <td>cross-check disagreement + complex outline</td>
+              <td><strong>Yes</strong> &mdash; hair is where a human should look</td></tr>
+            <tr><td>poster, dark and clipped</td>
+              <td><span class="pill review"><svg viewBox="0 0 12 12"><path d="M6 1 L11 11 H1 z" fill="currentColor"/></svg>REVIEW</span></td>
+              <td class="n">0.9998</td>
+              <td>product cropped by the frame on 16% of the border</td>
+              <td><strong>Yes, deliberately</strong> &mdash; a perfect mask of an unusable photo</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The last row is the only near-perfect mask sent to a human, and it is a design
+        decision rather than an error: the mask is fine, the <em>photo</em> cannot be a mockup
+        base, because there is nothing to composite against at the crop line. The system
+        judges photo suitability, not just mask quality.</p>
+    </div>
+  </section>
+
+  <!-- 07 ================================================================== -->
+  <section class="slide" id="s7" data-title="How it judges itself">
+    <div class="eyebrow"><b>Slide 07</b><span>How the AI judges itself</span><hr></div>
+    <h2>Nine no-reference signals, then five hard vetoes</h2>
+    <p class="lede">No ground truth exists at inference time, so every signal is computed
+      from the image and the mask alone. Bar length is the signal's weight in the
+      confidence score.</p>
+    <div class="body">
+      <div class="sig">
+        <div class="sigrow"><span class="name">edge alignment</span>
+          <span class="track"><i style="width:100%"></i><b>.20</b></span>
+          <span class="what">Does the outline sit on a real gradient? Measured on the Sobel
+            field against the image's own median gradient &mdash; scale-free, so it works on a
+            white-on-white sweep where a fixed Canny pair reports "no edges".</span></div>
+        <div class="sigrow"><span class="name">ensemble agreement</span>
+          <span class="track"><i style="width:100%"></i><b>.20</b></span>
+          <span class="what">Does an architecturally unrelated model agree, on region and
+            on edge placement? The one signal that does not share the primary model's
+            blind spots.</span></div>
+        <div class="sigrow"><span class="name">boundary contrast</span>
+          <span class="track"><i style="width:70%"></i><b>.14</b></span>
+          <span class="what">Is there a colour step <em>across</em> the outline, relative to the
+            local noise floor? Catches a mask that has absorbed a neighbouring object.</span></div>
+        <div class="sigrow"><span class="name">ramp sharpness</span>
+          <span class="track"><i style="width:60%"></i><b>.12</b></span>
+          <span class="what">Uncertain pixels &divide; boundary length. 1&ndash;3&nbsp;px is correct
+            anti-aliasing; over 12&nbsp;px composites as a grey halo.</span></div>
+        <div class="sigrow"><span class="name">background consistency</span>
+          <span class="track"><i style="width:50%"></i><b>.10</b></span>
+          <span class="what">Do the pixels just <em>outside</em> the mask look like the backdrop?
+            The only signal that catches a sharp, well-aligned cut of the wrong
+            thing.</span></div>
+        <div class="sigrow"><span class="name">topology</span>
+          <span class="track"><i style="width:50%"></i><b>.10</b></span>
+          <span class="what">Fragmentation, solidity, and hole count against the category's
+            expectation &mdash; zero holes on a mug is as suspicious as forty on a canvas.</span></div>
+        <div class="sigrow"><span class="name">coverage</span>
+          <span class="track"><i style="width:35%"></i><b>.07</b></span>
+          <span class="what">Plausible product-to-frame ratio for the category. Catches
+            "matted the whole backdrop" and "found nothing".</span></div>
+        <div class="sigrow"><span class="name">border contact</span>
+          <span class="track"><i style="width:25%"></i><b>.05</b></span>
+          <span class="what">A product running off the frame cannot be a clean base.</span></div>
+        <div class="sigrow"><span class="name">shape prior</span>
+          <span class="track"><i style="width:10%"></i><b>.02</b></span>
+          <span class="what">Class-conditional silhouette sanity, with thresholds calibrated
+            from measured data rather than guessed.</span></div>
+      </div>
+      <div class="callout"><strong>Then the vetoes.</strong> However good the aggregate score,
+        a mask never reads READY if it is fragmented, clipped by the frame, apparently a
+        sub-region of a larger object, atypically shaped for its class, cutting through
+        an object, or if the cross-check model materially disagrees.</div>
+      <p><strong>Not a pass-through wrapper.</strong> The quality decision is computed here,
+        from nine independent signals, one of which is a second model we run ourselves.
+        Swap the segmenter for a third-party API and this layer is unchanged.</p>
+    </div>
+  </section>
+
+  <!-- 08 ================================================================== -->
+  <section class="slide" id="s8" data-title="Ablation">
+    <div class="eyebrow"><b>Slide 08</b><span>Ablation &mdash; what each signal bought</span><hr></div>
+    <h2>Automation rate is not the objective function</h2>
+    <div class="body">
+      <div class="tw">
+        <table>
+          <caption>Each row is a real run of the evaluation script</caption>
+          <thead><tr><th>Configuration</th><th class="n">Automation</th>
+            <th class="n">READY mean IoU</th><th class="n">Worst READY</th><th class="n">&rho;</th></tr></thead>
+          <tbody>
+            <tr><td>Baseline QC (6 signals)</td><td class="n">73.7%</td><td class="n">0.963</td>
+              <td class="n">0.743</td><td class="n">0.45</td></tr>
+            <tr><td>+ background consistency, shape prior, strand suppression</td>
+              <td class="n">84.2%</td><td class="n">0.969</td><td class="n">0.769</td><td class="n">0.57</td></tr>
+            <tr><td>+ boundary contrast, calibrated thresholds</td>
+              <td class="n">84.2%</td><td class="n">0.969</td><td class="n">0.769</td><td class="n">0.57</td></tr>
+            <tr><td>+ cross-check disagreement as a hard veto</td>
+              <td class="n">73.7%</td><td class="n">0.9975</td><td class="n">0.9834</td><td class="n">0.69</td></tr>
+            <tr><td><strong>+ gradient-field edge alignment (shipped)</strong></td>
+              <td class="n"><strong>73.7%</strong></td><td class="n"><strong>0.9975</strong></td>
+              <td class="n"><strong>0.9834</strong></td><td class="n"><strong>0.81</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="cols">
+        <div class="callout">Row 2 publishes 10% more images &mdash; including one at
+          <span class="mono num">IoU 0.769</span>. Row 4 <strong>gives that back</strong> to buy
+          "worst published mask &ge; 0.98". For a live product catalogue that is the right
+          trade: one bad mockup costs more than three masks of review.</div>
+        <div class="callout">Replacing Canny-based edge alignment with a gradient-field
+          measure changed <strong>no verdict</strong> but lifted &rho; from 0.69 to 0.81 &mdash; because a
+          fixed threshold pair silently degraded a 20%-weight signal to a constant on
+          clean studio sweeps.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 ================================================================== -->
+  <section class="slide" id="s9" data-title="Hard cases">
+    <div class="eyebrow"><b>Slide 09</b><span>The cases the brief names</span><hr></div>
+    <h2>Hair, folds, shadows, handles</h2>
+    <div class="body">
+      <ol class="steps">
+        <li><span><strong>Hair across a garment.</strong> A saliency model returns the smooth
+          garment outline <em>including</em> the pixels the hair covers, so the mockup paints the
+          design straight over the hair. A morphological black-hat finds thin dark
+          structures inside the mask body, then six guards decide what to remove:
+          interior only, clearly darker than the <em>local</em> garment tone, thin, long and
+          stringy per component, within an 8% budget, and lying on a locally thick part of
+          the product. Worth <strong>+0.07 boundary F1</strong> on apparel.</span></li>
+        <li><span><strong>Fabric folds.</strong> Kept, not smoothed &mdash; the fold <em>shading</em> becomes
+          the displacement and shadow maps instead of contaminating the mask.</span></li>
+        <li><span><strong>Cast shadow.</strong> A studio drop shadow has a signature: low alpha,
+          desaturated, darker than the backdrop but nowhere near as dark as a real product
+          edge. Detected and removed, so artwork never lands on a shadow.</span></li>
+        <li><span><strong>Mug and tote handles.</strong> Structural holes are kept <em>and counted</em>,
+          and the count feeds the quality score.</span></li>
+        <li><span><strong>Busy backgrounds.</strong> Where the pipeline cannot fix the ambiguity,
+          cross-check disagreement flags it. Detection without correction is still worth
+          shipping &mdash; it is the difference between a review queue and a lottery.</span></li>
+      </ol>
+      <div class="callout"><strong>The guard list above is not theoretical.</strong> Running the
+        pipeline over real Creative-Commons product photos caught the first version of
+        the hair remover deleting the word "AIRTOUCH" off a tote bag and most of a rune
+        ring off another &mdash; printed lettering is also thin, dark and inside the mask. The
+        component-geometry guards fixed it: 1,055 components rejected on that image, one
+        kept, and the synthetic hair case unchanged.</div>
+    </div>
+  </section>
+
+  <!-- 10 ================================================================== -->
+  <section class="slide" id="s10" data-title="Performance">
+    <div class="eyebrow"><b>Slide 10</b><span>Performance</span><hr></div>
+    <h2>2.19&nbsp;seconds a mask on a 4&nbsp;GB laptop GPU</h2>
+    <p class="lede">Deliberately the weakest plausible deployment target. A T4 or L4 is
+      roughly two to three times faster.</p>
+    <div class="body">
+      <div class="cols">
+        <figure class="chart">
+          <figcaption>Where the 2.19&nbsp;s goes</figcaption>
+          <div class="sub">mask only, mean over 19 bases &middot; hover for the millisecond figure</div>
+          <div class="chartbox" id="stageBox">
+            <svg id="stages" viewBox="0 0 420 240" role="img"
+              aria-label="Stage time split: segmentation 1000 ms, cross-check 412 ms,
+              quality check 347 ms, refinement 275 ms, print area 72 ms, other 81 ms."></svg>
+            <div class="tip" id="stageTip"></div>
+          </div>
+        </figure>
+        <figure class="chart">
+          <figcaption>Batch throughput, one GPU</figcaption>
+          <div class="sub">images per minute by worker count</div>
+          <div class="chartbox" id="workerBox">
+            <svg id="workers" viewBox="0 0 420 240" role="img"
+              aria-label="Throughput by worker count: one worker 26.6 images per minute,
+              two workers 43.6, four workers 49.6."></svg>
+            <div class="tip" id="workerTip"></div>
+          </div>
+        </figure>
+      </div>
+      <p>Scaling is sub-linear on purpose: segmentation is serialised by a per-backend
+        lock, because two CUDA graphs must not be in flight at once on a 4&nbsp;GB card. What
+        the worker pool buys is <strong>overlapping the CPU half</strong> of the pipeline &mdash; decode,
+        refine, QC, PNG encode, a combined 54% of the budget &mdash; with GPU inference.</p>
+      <div class="tw">
+        <table>
+          <caption>What each knob is actually worth &mdash; measured, not assumed</caption>
+          <thead><tr><th>Setting</th><th>Measured effect</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">SHADOW_MAPS=0, DISPLACEMENT=0</td>
+              <td><strong>&minus;1.9&nbsp;s (&minus;47%)</strong> &mdash; the biggest lever, and free if the
+                mockup engine only needs the mask. Almost all of it is PNG encoding, not compute.</td></tr>
+            <tr><td class="mono">INFER_SIZE=1280</td>
+              <td>+3.1&nbsp;s for no measurable accuracy gain. Not worth it.</td></tr>
+            <tr><td class="mono">INFER_SIZE=768</td>
+              <td>&minus;95&nbsp;ms only &mdash; the second ROI pass grows as the first shrinks.</td></tr>
+            <tr><td class="mono">ENSEMBLE=0</td>
+              <td>&minus;449&nbsp;ms, but removes the signal that guarantees no false accepts.
+                Do not, if you act on READY automatically.</td></tr>
+            <tr><td class="mono">BIREFNET_REPO=…/BiRefNet_lite</td>
+              <td>~3&times; faster, visibly softer on hair. The right call for CPU-only hosts.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 ================================================================== -->
+  <section class="slide" id="s11" data-title="Integration">
+    <div class="eyebrow"><b>Slide 11</b><span>Integration</span><hr></div>
+    <h2>A microservice, not a notebook</h2>
+    <div class="body">
+      <div class="cols">
+        <div>
+          <h3>Four ways in</h3>
+          <ul class="plain" style="margin-top:10px">
+            <li><span class="mono">POST /v1/mask</span> &mdash; one or many uploaded files</li>
+            <li><span class="mono">POST /v1/mask/url</span> &mdash; a direct image URL: the
+              service-to-service path</li>
+            <li><span class="mono">POST /v1/mask/manifest</span> &mdash; CSV or JSON from the PIM,
+              with tolerant column matching</li>
+            <li><span class="mono">scripts/run_folder.py</span> &mdash; a drop folder, for
+              air-gapped runs</li>
+          </ul>
+          <h3 style="margin-top:20px">And out</h3>
+          <ul class="plain" style="margin-top:10px">
+            <li>Swagger at <span class="mono">/docs</span>, review dashboard at
+              <span class="mono">/</span></li>
+            <li>Batch report with automation KPIs, review queue first, and
+              original-vs-mask overlays</li>
+            <li>Optional <span class="mono">X-API-Key</span>; the artifact store is a
+              one-file swap for S3</li>
+          </ul>
+        </div>
+        <div>
+          <h3>The print area drops straight in</h3>
+          <p style="margin-top:10px; color:var(--ink-2)">Returned as a quad <em>plus</em> the 3&times;3
+            homography mapping a unit design canvas onto it &mdash; exactly what libvips,
+            ImageMagick or a canvas engine needs. No mockup-engine changes.</p>
+<pre><b>1.</b> warp design onto print_area.quad   <span style="color:var(--muted)">← homography</span>
+<b>2.</b> displace with displacement_map     <span style="color:var(--muted)">← folds</span>
+<b>3.</b> multiply by shadow_map             <span style="color:var(--muted)">← creases</span>
+<b>4.</b> screen with highlight_map          <span style="color:var(--muted)">← sheen</span>
+<b>5.</b> mask with alpha_mask               <span style="color:var(--muted)">← containment</span></pre>
+          <p style="margin-top:12px; color:var(--ink-2)">Verified by test, not by eye: the
+            print-area quad contains <strong>zero pixels outside the product mask</strong>, and its
+            homography maps the unit square onto the returned corners to within
+            <span class="mono">1e-3</span>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 ================================================================== -->
+  <section class="slide" id="s12" data-title="Business case">
+    <div class="eyebrow"><b>Slide 12</b><span>Business case</span><hr></div>
+    <h2>The labour line is not the biggest win</h2>
+    <div class="body">
+      <div class="tw">
+        <table>
+          <caption>Per 1,000 product bases</caption>
+          <thead><tr><th></th><th>Manual today</th><th>With auto-masking</th></tr></thead>
+          <tbody>
+            <tr><td>Designer hours</td><td class="num">~750 h</td>
+              <td class="num"><strong>~66 h</strong> &mdash; 263 review items &times; ~15 min</td></tr>
+            <tr><td>Wall-clock</td><td class="num">4&ndash;6 weeks</td>
+              <td class="num"><strong>20&ndash;42 min of GPU</strong> + review as capacity allows</td></tr>
+            <tr><td>Cost</td><td class="num">~$9,000</td>
+              <td class="num">~$790 labour + <strong>under $1 compute</strong></td></tr>
+            <tr><td>Marginal cost per base</td><td class="num">~$9</td>
+              <td class="num"><strong>fractions of a cent</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout"><strong>The structural win:</strong> the base library stops being a
+        scheduling constraint. New SKUs go live the day the photos land, seasonal drops
+        no longer need a design sprint, and a re-shoot becomes a re-run rather than a
+        re-do.</div>
+      <p>Measured throughput is 1,430&ndash;2,976 masks per hour depending on which layers
+        the mockup engine consumes &mdash; on a laptop GPU. One modest cloud instance covers a
+        thousand bases a month many times over, and the service is stateless behind the
+        job store, so it scales horizontally without coordination.</p>
+    </div>
+  </section>
+
+  <!-- 13 ================================================================== -->
+  <section class="slide" id="s13" data-title="Limits">
+    <div class="eyebrow"><b>Slide 13</b><span>Limits we are not hiding</span><hr></div>
+    <h2>Where this is honestly weak</h2>
+    <div class="body">
+      <ol class="steps">
+        <li><span><strong>Semantic ambiguity is unsolvable from pixels.</strong> Nothing in a photo
+          says whether the frame around a print is part of the product. We detect the
+          ambiguity and ask. The real fix is the category arriving from the PIM, or a
+          fine-tune on the customer's library.</span></li>
+        <li><span><strong>Adjacent touching objects</strong> can be absorbed into the mask.
+          Detected via cross-check disagreement and the shape prior &mdash; not yet
+          corrected.</span></li>
+        <li><span><strong>Rendered ground truth is an upper bound on realism.</strong> The
+          real-photo spot check is qualitative. Validate against ~50 hand-labelled real
+          bases before committing to an SLA.</span></li>
+        <li><span><strong>The QC weights are hand-set.</strong> Calibrated against measured data
+          rather than intuition, but a learned scorer over the same nine features would
+          place the threshold optimally instead of conservatively.</span></li>
+        <li><span><strong>n = 19.</strong> Enough to support "zero false accepts" and &rho;&nbsp;=&nbsp;0.81
+          as directional evidence; not enough for tight confidence intervals.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 14 ================================================================== -->
+  <section class="slide" id="s14" data-title="Roadmap">
+    <div class="eyebrow"><b>Slide 14</b><span>Roadmap for the final round</span><hr></div>
+    <h2>Five things, in the order they pay off</h2>
+    <div class="body">
+      <ol class="steps">
+        <li><span><strong>Fine-tune BiRefNet on the customer's own base library.</strong> A few
+          hundred labelled in-domain bases should close most of the remaining gap,
+          especially the frame-versus-print ambiguity.</span></li>
+        <li><span><strong>Learn the QC scorer</strong> from real review decisions &mdash; same nine
+          features, gradient-boosted. Turns a conservative threshold into an optimal one,
+          which lifts the automation rate directly.</span></li>
+        <li><span><strong>TensorRT / ONNX export</strong> for 2&ndash;3&times; on the same GPU. Note from the
+          stage split that this removes ~500&nbsp;ms of 2,190: past that the pipeline is
+          CPU-bound, so pair it with more batch workers.</span></li>
+        <li><span><strong>Auto-correct adjacent-object absorption</strong> by using the cross-check
+          mask as a region prior, not only as a QC signal.</span></li>
+        <li><span><strong>Photometric-stereo displacement</strong> if the studio can shoot two
+          flash positions &mdash; turns today's single-image estimate into a
+          measurement.</span></li>
+      </ol>
+      <div class="claim" style="margin-top:6px"><strong>Closing line.</strong> The mask is table
+        stakes. What we are proposing is a base pipeline that knows when to hand work back
+        to a human &mdash; and on our numbers, it handed back every single one of the bad ones.</div>
+    </div>
+  </section>
+
+  </main>
+</div>
+
+<footer class="end">
+  <span>Every figure reproducible: <span class="mono">make dataset &amp;&amp; make eval &amp;&amp; make bench</span></span>
+  <span>&middot;</span>
+  <span>BiRefNet MIT &middot; U2-Net Apache-2.0 &middot; commercial use cleared</span>
+  <span>&middot;</span>
+  <span>57 contract tests, no GPU required</span>
+</footer>
+
+<script>
+'use strict';
+
+/* --- slide index rail ------------------------------------------------------ */
+const slides = Array.from(document.querySelectorAll('section.slide'));
+const rail = document.getElementById('rail');
+rail.innerHTML = slides.map((s, i) =>
+  `<li><a href="#${s.id}"><i>${String(i + 1).padStart(2, '0')}</i>` +
+  `<span>${s.dataset.title}</span></a></li>`).join('');
+const links = Array.from(rail.querySelectorAll('a'));
+
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((e) => {
+    if (!e.isIntersecting) return;
+    const idx = slides.indexOf(e.target);
+    links.forEach((a, i) => a.setAttribute('aria-current', i === idx ? 'true' : 'false'));
+  });
+}, { rootMargin: '-25% 0px -65% 0px' });
+slides.forEach((s) => io.observe(s));
+
+/* --- shared tooltip plumbing ---------------------------------------------- */
+function bindTip(boxId, tipId) {
+  const box = document.getElementById(boxId);
+  const tip = document.getElementById(tipId);
+  const show = (html, ev) => {
+    tip.innerHTML = html;
+    tip.classList.add('on');
+    const r = box.getBoundingClientRect();
+    const x = ev.clientX - r.left, y = ev.clientY - r.top;
+    // Flip before the tooltip can push the panel sideways.
+    const w = tip.offsetWidth;
+    tip.style.left = Math.max(2, Math.min(x + 14, box.clientWidth - w - 2)) + 'px';
+    tip.style.top = Math.max(2, y - tip.offsetHeight - 10) + 'px';
+  };
+  const hide = () => tip.classList.remove('on');
+  box.addEventListener('mouseleave', hide);
+  return { show, hide };
+}
+
+/* --- 1. confidence vs IoU scatter ----------------------------------------- */
+const DATA = [{"n":"tee flatlay white","c":0.9419,"i":0.9983,"v":"READY","b":0.9941,"cat":"apparel"},{"n":"tee flatlay black","c":0.9882,"i":0.9999,"v":"READY","b":1,"cat":"apparel"},{"n":"tee on model, hair","c":0.8563,"i":0.776,"v":"REVIEW","b":0.7286,"cat":"apparel"},{"n":"hoodie folds","c":0.9605,"i":0.9928,"v":"READY","b":0.9518,"cat":"apparel"},{"n":"tote, two handles","c":0.9467,"i":0.9976,"v":"READY","b":0.9882,"cat":"apparel"},{"n":"tee on hanger, busy wall","c":0.9816,"i":0.9834,"v":"READY","b":0.89,"cat":"apparel"},{"n":"tee, hard flash shadow","c":0.9353,"i":0.9992,"v":"READY","b":0.9984,"cat":"apparel"},{"n":"mug white on white","c":0.9688,"i":0.9985,"v":"READY","b":1,"cat":"drinkware"},{"n":"mug, dark cluttered desk","c":0.8306,"i":0.3597,"v":"REVIEW","b":0.4802,"cat":"drinkware"},{"n":"tumbler, no handle","c":0.9951,"i":0.9992,"v":"READY","b":1,"cat":"drinkware"},{"n":"bottle, translucent","c":0.9361,"i":0.9973,"v":"READY","b":0.9823,"cat":"drinkware"},{"n":"canvas, straight","c":0.9859,"i":0.9999,"v":"READY","b":1,"cat":"wall_art"},{"n":"canvas, perspective","c":0.996,"i":0.9997,"v":"READY","b":1,"cat":"wall_art"},{"n":"framed print","c":0.8289,"i":0.7427,"v":"REVIEW","b":0.1388,"cat":"wall_art"},{"n":"poster, dark + clipped","c":0.9724,"i":0.9998,"v":"REVIEW","b":1,"cat":"wall_art"},{"n":"phone case","c":0.9986,"i":1,"v":"READY","b":1,"cat":"accessory"},{"n":"cap","c":0.9774,"i":0.9998,"v":"READY","b":1,"cat":"accessory"},{"n":"mousepad on desk","c":0.9273,"i":0.7688,"v":"REVIEW","b":0.4643,"cat":"accessory"},{"n":"cushion","c":0.9824,"i":0.9988,"v":"READY","b":0.9904,"cat":"accessory"}];
+
+(function scatter() {
+  const svg = document.getElementById('scatter');
+  const W = 720, H = 400, m = { t: 14, r: 116, b: 44, l: 52 };
+  const iw = W - m.l - m.r, ih = H - m.t - m.b;
+  // Headroom above IoU 1.0 so the dense cluster of published masks clears the
+  // caption row instead of colliding with it.
+  const X0 = 0.80, X1 = 1.005, Y0 = 0.30, Y1 = 1.06;
+  const px = (c) => m.l + (c - X0) / (X1 - X0) * iw;
+  const py = (i) => m.t + (1 - (i - Y0) / (Y1 - Y0)) * ih;
+  const ns = 'http://www.w3.org/2000/svg';
+  const el = (t, a) => { const n = document.createElementNS(ns, t);
+    for (const k in a) n.setAttribute(k, a[k]); return n; };
+
+  // recessive grid
+  [0.4, 0.6, 0.8, 1.0].forEach((v) => {
+    svg.appendChild(el('line', { x1: m.l, x2: m.l + iw, y1: py(v), y2: py(v),
+      stroke: 'var(--grid)', 'stroke-width': 1 }));
+    const t = el('text', { x: m.l - 9, y: py(v) + 3.5, 'text-anchor': 'end', class: 'axtick' });
+    t.textContent = v.toFixed(1); svg.appendChild(t);
+  });
+  [0.82, 0.85, 0.90, 0.95, 1.00].forEach((v) => {
+    const t = el('text', { x: px(v), y: m.t + ih + 18, 'text-anchor': 'middle', class: 'axtick' });
+    t.textContent = v.toFixed(2); svg.appendChild(t);
+  });
+  svg.appendChild(el('line', { x1: m.l, x2: m.l + iw, y1: m.t + ih, y2: m.t + ih,
+    stroke: 'var(--axis)', 'stroke-width': 1 }));
+
+  // guide lines: the READY threshold, and the quality floor published masks cleared
+  svg.appendChild(el('line', { x1: px(0.82), x2: px(0.82), y1: m.t, y2: m.t + ih,
+    stroke: 'var(--muted)', 'stroke-width': 1, 'stroke-dasharray': '3 3' }));
+  const thr = el('text', { x: px(0.82) + 6, y: m.t + 12, class: 'annot' });
+  thr.textContent = 'READY threshold 0.82'; svg.appendChild(thr);
+
+  svg.appendChild(el('line', { x1: m.l, x2: m.l + iw, y1: py(0.98), y2: py(0.98),
+    stroke: 'var(--muted)', 'stroke-width': 1, 'stroke-dasharray': '3 3' }));
+  const fl = el('text', { x: m.l + iw + 8, y: py(0.98) + 3.5, class: 'annot' });
+  fl.textContent = 'IoU 0.98'; svg.appendChild(fl);
+
+  // axis titles
+  const xt = el('text', { x: m.l + iw / 2, y: H - 6, 'text-anchor': 'middle', class: 'axlabel' });
+  xt.textContent = 'SELF-ASSESSED CONFIDENCE'; svg.appendChild(xt);
+  const yt = el('text', { x: 12, y: m.t + ih / 2, class: 'axlabel',
+    transform: `rotate(-90 12 ${m.t + ih / 2})`, 'text-anchor': 'middle' });
+  yt.textContent = 'TRUE IoU vs GROUND TRUTH'; svg.appendChild(yt);
+
+  const { show, hide } = bindTip('scatterBox', 'scatterTip');
+  const colour = (v) => v === 'READY' ? 'var(--good)' : 'var(--warn)';
+
+  // Identity is shape + colour, never colour alone.
+  DATA.forEach((d) => {
+    const x = px(Math.max(X0 + 0.002, d.c)), y = py(d.i);
+    const mark = d.v === 'READY'
+      ? el('circle', { cx: x, cy: y, r: 5.4 })
+      : el('path', { d: `M${x} ${y - 6.2} L${x + 6} ${y + 4.6} L${x - 6} ${y + 4.6} Z` });
+    mark.setAttribute('fill', colour(d.v));
+    mark.setAttribute('stroke', 'var(--panel-2)');   // 2px surface ring on overlaps
+    mark.setAttribute('stroke-width', '2');
+    mark.style.cursor = 'crosshair';
+    mark.addEventListener('mousemove', (ev) => show(
+      `${d.n}<br><b>IoU ${d.i.toFixed(4)}</b> &middot; conf <b>${d.c.toFixed(3)}</b>` +
+      `<br>boundary F1 <b>${d.b.toFixed(3)}</b> &middot; ${d.cat} &middot; ${d.v}`, ev));
+    mark.addEventListener('mouseleave', hide);
+    svg.appendChild(mark);
+  });
+
+  // Direct labels on the three that carry the argument.
+  [['mug, dark cluttered desk', 10, 4], ['framed print', 10, 15],
+   ['tee on model, hair', 10, -9], ['mousepad on desk', 10, 4]]
+    .forEach(([name, dx, dy]) => {
+      const d = DATA.find((p) => p.n === name);
+      const t = el('text', { x: px(d.c) + dx, y: py(d.i) + dy, class: 'annot' });
+      t.textContent = name; svg.appendChild(t);
+    });
+  const cluster = el('text', { x: px(1.003), y: m.t + 12, class: 'annot', 'text-anchor': 'end' });
+  cluster.textContent = '14 published masks, all ≥ 0.983'; svg.appendChild(cluster);
+})();
+
+/* --- 2. stage split ------------------------------------------------------- */
+(function stages() {
+  const rows = [
+    ['segment', 1000, 'BiRefNet, two passes'],
+    ['cross-check', 412, 'U2-Net on CPU'],
+    ['quality check', 347, 'nine signals'],
+    ['refine', 275, 'topology, shadow, hair, guided filter'],
+    ['print area', 72, 'quad / torso / cylinder solver'],
+    ['other', 81, 'decode, classify, encode'],
+  ];
+  const svg = document.getElementById('stages');
+  const W = 420, H = 240, m = { t: 8, r: 46, b: 26, l: 92 };
+  const iw = W - m.l - m.r, band = (H - m.t - m.b) / rows.length;
+  const max = 1000;
+  const ns = 'http://www.w3.org/2000/svg';
+  const el = (t, a) => { const n = document.createElementNS(ns, t);
+    for (const k in a) n.setAttribute(k, a[k]); return n; };
+  const { show, hide } = bindTip('stageBox', 'stageTip');
+  const total = rows.reduce((s, r) => s + r[1], 0);
+
+  rows.forEach(([name, ms, note], i) => {
+    const y = m.t + i * band, h = Math.min(15, band - 9);
+    const w = Math.max(3, ms / max * iw);
+    const t = el('text', { x: m.l - 9, y: y + h - 2, 'text-anchor': 'end', class: 'axtick' });
+    t.textContent = name; svg.appendChild(t);
+    // 4px rounded data-end, anchored to the baseline
+    const bar = el('rect', { x: m.l, y, width: w, height: h, rx: 2,
+      fill: 'var(--accent)', 'fill-opacity': i === 0 ? 1 : 0.62 });
+    bar.style.cursor = 'crosshair';
+    bar.addEventListener('mousemove', (ev) => show(
+      `${name}<br><b>${ms} ms</b> &middot; ${(ms / total * 100).toFixed(1)}%<br>${note}`, ev));
+    bar.addEventListener('mouseleave', hide);
+    svg.appendChild(bar);
+    const v = el('text', { x: m.l + w + 7, y: y + h - 2, class: 'axtick' });
+    v.textContent = ms + ' ms'; svg.appendChild(v);
+  });
+  svg.appendChild(el('line', { x1: m.l, x2: m.l, y1: m.t, y2: H - m.b + 2,
+    stroke: 'var(--axis)', 'stroke-width': 1 }));
+  const cap = el('text', { x: m.l, y: H - 8, class: 'axlabel' });
+  cap.textContent = 'MEAN MILLISECONDS PER IMAGE'; svg.appendChild(cap);
+})();
+
+/* --- 3. worker scaling ---------------------------------------------------- */
+(function workers() {
+  const rows = [[1, 26.6, '42.9 s wall'], [2, 43.6, '26.1 s wall'], [4, 49.6, '23.0 s wall']];
+  const svg = document.getElementById('workers');
+  const W = 420, H = 240, m = { t: 22, r: 16, b: 44, l: 48 };
+  const iw = W - m.l - m.r, ih = H - m.t - m.b, max = 60;
+  const ns = 'http://www.w3.org/2000/svg';
+  const el = (t, a) => { const n = document.createElementNS(ns, t);
+    for (const k in a) n.setAttribute(k, a[k]); return n; };
+  const { show, hide } = bindTip('workerBox', 'workerTip');
+
+  [0, 20, 40, 60].forEach((v) => {
+    const y = m.t + ih - v / max * ih;
+    svg.appendChild(el('line', { x1: m.l, x2: m.l + iw, y1: y, y2: y,
+      stroke: 'var(--grid)', 'stroke-width': 1 }));
+    const t = el('text', { x: m.l - 9, y: y + 3.5, 'text-anchor': 'end', class: 'axtick' });
+    t.textContent = v; svg.appendChild(t);
+  });
+  const bw = 52, gap = (iw - rows.length * bw) / (rows.length + 1);
+  rows.forEach(([n, v, note], i) => {
+    const x = m.l + gap + i * (bw + gap);
+    const h = v / max * ih, y = m.t + ih - h;
+    const bar = el('rect', { x, y, width: bw, height: h, rx: 2,
+      fill: 'var(--accent)', 'fill-opacity': n === 2 ? 1 : 0.58 });
+    bar.style.cursor = 'crosshair';
+    bar.addEventListener('mousemove', (ev) => show(
+      `${n} worker${n > 1 ? 's' : ''}<br><b>${v} img/min</b><br>${note}`, ev));
+    bar.addEventListener('mouseleave', hide);
+    svg.appendChild(bar);
+    const val = el('text', { x: x + bw / 2, y: y - 7, 'text-anchor': 'middle', class: 'axtick' });
+    val.textContent = v; svg.appendChild(val);
+    const lab = el('text', { x: x + bw / 2, y: m.t + ih + 17, 'text-anchor': 'middle', class: 'axtick' });
+    lab.textContent = n + (n === 1 ? ' worker' : ' workers'); svg.appendChild(lab);
+  });
+  svg.appendChild(el('line', { x1: m.l, x2: m.l + iw, y1: m.t + ih, y2: m.t + ih,
+    stroke: 'var(--axis)', 'stroke-width': 1 }));
+  const cap = el('text', { x: m.l, y: H - 8, class: 'axlabel' });
+  cap.textContent = 'IMAGES PER MINUTE, ONE 4 GB GPU'; svg.appendChild(cap);
+})();
+</script>

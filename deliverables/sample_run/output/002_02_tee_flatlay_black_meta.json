@@ -1,0 +1,170 @@
+{
+  "id": "002_02_tee_flatlay_black",
+  "sku": null,
+  "source": "02_tee_flatlay_black.png",
+  "resolution": {
+    "width": 1200,
+    "height": 1500
+  },
+  "verdict": "READY",
+  "confidence": 0.9882,
+  "category": {
+    "value": "apparel",
+    "source": "metadata",
+    "confidence": 1.0,
+    "detail": {
+      "note": "supplied by caller"
+    }
+  },
+  "metrics": {
+    "coverage": 0.35403,
+    "edge_sharpness": 1.0,
+    "uncertain_ratio": 0.00162,
+    "boundary_complexity": 0.111,
+    "component_penalty": 0.0,
+    "border_contact": 0.0,
+    "ensemble_iou": 0.9954,
+    "holes": 0,
+    "solidity": 0.7831
+  },
+  "qc_detail": {
+    "cross_check": {
+      "iou": 0.9954,
+      "boundary_f1": 0.9993
+    },
+    "edge_alignment": {
+      "aligned_ratio": 1.0,
+      "tolerance_px": 2,
+      "median_gradient": 2.284,
+      "threshold": 5.709
+    },
+    "topology": {
+      "components": 1,
+      "solidity": 0.7831,
+      "component_penalty": 0.0,
+      "hole_penalty": 0.0
+    },
+    "background": {
+      "outside_is_background": 1.0,
+      "ring_px": 55834,
+      "ring_radius_px": 12
+    },
+    "shape": {
+      "bbox_fill": 0.5699,
+      "aspect": 1.164
+    },
+    "boundary_contrast": {
+      "flat_boundary_fraction": 0.0,
+      "median_step_over_noise": 1.941,
+      "sample_px": 9243
+    },
+    "terms": {
+      "edge_alignment": 1.0,
+      "sharpness": 1.0,
+      "topology": 1.0,
+      "coverage": 1.0,
+      "border": 1.0,
+      "bg_consistency": 1.0,
+      "shape_prior": 1.0,
+      "boundary_contrast": 1.0,
+      "ensemble": 0.9965
+    },
+    "weights": {
+      "edge_alignment": 0.2,
+      "sharpness": 0.12,
+      "topology": 0.1,
+      "coverage": 0.07,
+      "border": 0.05,
+      "bg_consistency": 0.1,
+      "shape_prior": 0.02,
+      "boundary_contrast": 0.14,
+      "ensemble": 0.2
+    },
+    "lighting": {
+      "albedo_sigma_px": 120.0,
+      "shadow_mean": 0.1529,
+      "highlight_mean": 0.1723
+    },
+    "displacement": {
+      "residual_p98": 0.01472,
+      "detail_sigma_px": 45.0,
+      "amplitude": 0.3196
+    }
+  },
+  "refine": {
+    "category": "apparel",
+    "shadow_suppressed": false,
+    "holes_kept": 0,
+    "guided": true,
+    "strands": {
+      "applied": false,
+      "blackhat_p99": 0.0196
+    },
+    "unknown_band_px": 53482,
+    "guided_radius": 10
+  },
+  "print_area": {
+    "kind": "torso",
+    "quad": [
+      [
+        418.75,
+        412.5
+      ],
+      [
+        778.125,
+        412.5
+      ],
+      [
+        778.125,
+        1006.25
+      ],
+      [
+        418.75,
+        1006.25
+      ]
+    ],
+    "bbox": [
+      418.75,
+      412.5,
+      359.375,
+      593.75
+    ],
+    "area_px": 214795,
+    "coverage_of_product": 0.3371,
+    "perspective_matrix": [
+      [
+        359.375,
+        0.0,
+        418.75
+      ],
+      [
+        0.0,
+        593.75,
+        412.5
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "confidence": 0.9679
+  },
+  "model": {
+    "primary": "birefnet",
+    "tried": [
+      "birefnet",
+      "u2net"
+    ]
+  },
+  "artifacts": {
+    "alpha_mask": "/artifacts/deliv_3bedec0d51ab/002_02_tee_flatlay_black_mask.png",
+    "cutout_rgba": "/artifacts/deliv_3bedec0d51ab/002_02_tee_flatlay_black_cutout.png",
+    "overlay": "/artifacts/deliv_3bedec0d51ab/002_02_tee_flatlay_black_overlay.jpg",
+    "shadow_map": "/artifacts/deliv_3bedec0d51ab/002_02_tee_flatlay_black_shadow.png",
+    "highlight_map": "/artifacts/deliv_3bedec0d51ab/002_02_tee_flatlay_black_highlight.png",
+    "displacement_map": "/artifacts/deliv_3bedec0d51ab/002_02_tee_flatlay_black_displacement.png",
+    "print_area_preview": null,
+    "trimap": "/artifacts/deliv_3bedec0d51ab/002_02_tee_flatlay_black_trimap.png"
+  }
+}

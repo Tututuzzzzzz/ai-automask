@@ -1,0 +1,39 @@
+# --- python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- model weights (fetched by scripts/download_models.py) ---
+models/*.onnx
+models/*.pt
+models/*.pth
+models/*.safetensors
+!models/.gitkeep
+
+# --- pipeline output ---
+# (deliverables/ is deliberately NOT ignored: it holds the submitted test set
+#  and the system's output for it, produced by scripts/export_deliverable.py)
+outputs/
+data/candidates/
+data/real/
+data/eval/*.csv
+!data/eval/eval_summary.json
+
+# --- generated test set: reproducible via scripts/make_dataset.py ---
+# The 19 rendered bases + ground truth are ~30 MB, so they are regenerated
+# rather than committed. Delete these two lines if you want them in the repo.
+data/samples/*.png
+data/samples/ground_truth/
+
+# --- os / editor ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp

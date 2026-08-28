@@ -1,0 +1,1905 @@
+{
+  "job_id": "deliv_3bedec0d51ab",
+  "summary": {
+    "total": 19,
+    "ready": 14,
+    "review": 5,
+    "failed": 0,
+    "errors": 0,
+    "automation_rate": 0.7368,
+    "touchless_rate": 1.0,
+    "mean_confidence": 0.9479,
+    "mean_latency_ms": 4846.69,
+    "total_wall_ms": 47089.19,
+    "throughput_img_per_min": 24.21
+  },
+  "results": [
+    {
+      "id": "001_01_tee_flatlay_white",
+      "source": "01_tee_flatlay_white.png",
+      "status": "ok",
+      "verdict": "READY",
+      "confidence": 0.9419,
+      "reasons": [
+        "Clean single-piece mask, edges align with the source image, models agree."
+      ],
+      "category": "apparel",
+      "category_source": "metadata",
+      "width": 1200,
+      "height": 1500,
+      "model_used": "birefnet",
+      "models_tried": [
+        "birefnet",
+        "u2net"
+      ],
+      "timings_ms": {
+        "load": 52.64,
+        "segment": 2416.34,
+        "cross_check": 482.58,
+        "classify": 0.07,
+        "refine": 743.05,
+        "qc": 388.19,
+        "print_area": 146.65,
+        "artifacts": 2402.07,
+        "total": 6632.58
+      },
+      "metrics": {
+        "coverage": 0.35423,
+        "edge_sharpness": 1.0,
+        "uncertain_ratio": 0.00923,
+        "boundary_complexity": 0.1203,
+        "component_penalty": 0.0,
+        "border_contact": 0.0,
+        "ensemble_iou": 0.9869,
+        "holes": 0,
+        "solidity": 0.7825
+      },
+      "print_area": {
+        "kind": "torso",
+        "quad": [
+          [
+            418.75,
+            412.5
+          ],
+          [
+            778.125,
+            412.5
+          ],
+          [
+            778.125,
+            1006.25
+          ],
+          [
+            418.75,
+            1006.25
+          ]
+        ],
+        "bbox": [
+          418.75,
+          412.5,
+          359.375,
+          593.75
+        ],
+        "area_px": 214795,
+        "coverage_of_product": 0.3369,
+        "perspective_matrix": [
+          [
+            359.375,
+            0.0,
+            418.75
+          ],
+          [
+            0.0,
+            593.75,
+            412.5
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "confidence": 0.9679
+      },
+      "artifacts": {
+        "alpha_mask": "/artifacts/deliv_3bedec0d51ab/001_01_tee_flatlay_white_mask.png",
+        "cutout_rgba": "/artifacts/deliv_3bedec0d51ab/001_01_tee_flatlay_white_cutout.png",
+        "overlay": "/artifacts/deliv_3bedec0d51ab/001_01_tee_flatlay_white_overlay.jpg",
+        "shadow_map": "/artifacts/deliv_3bedec0d51ab/001_01_tee_flatlay_white_shadow.png",
+        "highlight_map": "/artifacts/deliv_3bedec0d51ab/001_01_tee_flatlay_white_highlight.png",
+        "displacement_map": "/artifacts/deliv_3bedec0d51ab/001_01_tee_flatlay_white_displacement.png",
+        "print_area_preview": null,
+        "trimap": "/artifacts/deliv_3bedec0d51ab/001_01_tee_flatlay_white_trimap.png"
+      },
+      "error": null
+    },
+    {
+      "id": "002_02_tee_flatlay_black",
+      "source": "02_tee_flatlay_black.png",
+      "status": "ok",
+      "verdict": "READY",
+      "confidence": 0.9882,
+      "reasons": [
+        "Clean single-piece mask, edges align with the source image, models agree."
+      ],
+      "category": "apparel",
+      "category_source": "metadata",
+      "width": 1200,
+      "height": 1500,
+      "model_used": "birefnet",
+      "models_tried": [
+        "birefnet",
+        "u2net"
+      ],
+      "timings_ms": {
+        "load": 48.96,
+        "segment": 1242.99,
+        "cross_check": 489.24,
+        "classify": 0.05,
+        "refine": 931.89,
+        "qc": 657.54,
+        "print_area": 153.98,
+        "artifacts": 2322.28,
+        "total": 5848.11
+      },
+      "metrics": {
+        "coverage": 0.35403,
+        "edge_sharpness": 1.0,
+        "uncertain_ratio": 0.00162,
+        "boundary_complexity": 0.111,
+        "component_penalty": 0.0,
+        "border_contact": 0.0,
+        "ensemble_iou": 0.9954,
+        "holes": 0,
+        "solidity": 0.7831
+      },
+      "print_area": {
+        "kind": "torso",
+        "quad": [
+          [
+            418.75,
+            412.5
+          ],
+          [
+            778.125,
+            412.5
+          ],
+          [
+            778.125,
+            1006.25
+          ],
+          [
+            418.75,
+            1006.25
+          ]
+        ],
+        "bbox": [
+          418.75,
+          412.5,
+          359.375,
+          593.75
+        ],
+        "area_px": 214795,
+        "coverage_of_product": 0.3371,
+        "perspective_matrix": [
+          [
+            359.375,
+            0.0,
+            418.75
+          ],
+          [
+            0.0,
+            593.75,
+            412.5
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "confidence": 0.9679
+      },
+      "artifacts": {
+        "alpha_mask": "/artifacts/deliv_3bedec0d51ab/002_02_tee_flatlay_black_mask.png",
+        "cutout_rgba": "/artifacts/deliv_3bedec0d51ab/002_02_tee_flatlay_black_cutout.png",
+        "overlay": "/artifacts/deliv_3bedec0d51ab/002_02_tee_flatlay_black_overlay.jpg",
+        "shadow_map": "/artifacts/deliv_3bedec0d51ab/002_02_tee_flatlay_black_shadow.png",
+        "highlight_map": "/artifacts/deliv_3bedec0d51ab/002_02_tee_flatlay_black_highlight.png",
+        "displacement_map": "/artifacts/deliv_3bedec0d51ab/002_02_tee_flatlay_black_displacement.png",
+        "print_area_preview": null,
+        "trimap": "/artifacts/deliv_3bedec0d51ab/002_02_tee_flatlay_black_trimap.png"
+      },
+      "error": null
+    },
+    {
+      "id": "003_03_tee_on_model_hair",
+      "source": "03_tee_on_model_hair.png",
+      "status": "ok",
+      "verdict": "REVIEW",
+      "confidence": 0.8563,
+      "reasons": [
+        "Cross-check model disagrees (IoU 0.92, agreement score 0.77) - ambiguous product boundary.",
+        "Highly complex outline (hair / fringe / fine detail) - human spot-check recommended."
+      ],
+      "category": "apparel",
+      "category_source": "metadata",
+      "width": 1200,
+      "height": 1600,
+      "model_used": "birefnet",
+      "models_tried": [
+        "birefnet",
+        "u2net"
+      ],
+      "timings_ms": {
+        "load": 38.46,
+        "segment": 1221.56,
+        "cross_check": 474.92,
+        "classify": 0.05,
+        "refine": 818.05,
+        "qc": 566.02,
+        "print_area": 109.88,
+        "artifacts": 2879.13,
+        "total": 6109.42
+      },
+      "metrics": {
+        "coverage": 0.31129,
+        "edge_sharpness": 1.0,
+        "uncertain_ratio": 0.03651,
+        "boundary_complexity": 1.0,
+        "component_penalty": 0.0,
+        "border_contact": 0.0,
+        "ensemble_iou": 0.9246,
+        "holes": 0,
+        "solidity": 0.8341
+      },
+      "print_area": {
+        "kind": "torso",
+        "quad": [
+          [
+            373.33331298828125,
+            516.6666259765625
+          ],
+          [
+            460.0,
+            516.6666259765625
+          ],
+          [
+            460.0,
+            1073.333251953125
+          ],
+          [
+            373.33331298828125,
+            1073.333251953125
+          ]
+        ],
+        "bbox": [
+          373.33331298828125,
+          516.6666259765625,
+          86.66668701171875,
+          556.6666259765625
+        ],
+        "area_px": 49104,
+        "coverage_of_product": 0.0822,
+        "perspective_matrix": [
+          [
+            86.66668701171875,
+            0.0,
+            373.33331298828125
+          ],
+          [
+            0.0,
+            556.6666259765625,
+            516.6666259765625
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "confidence": 0.4764
+      },
+      "artifacts": {
+        "alpha_mask": "/artifacts/deliv_3bedec0d51ab/003_03_tee_on_model_hair_mask.png",
+        "cutout_rgba": "/artifacts/deliv_3bedec0d51ab/003_03_tee_on_model_hair_cutout.png",
+        "overlay": "/artifacts/deliv_3bedec0d51ab/003_03_tee_on_model_hair_overlay.jpg",
+        "shadow_map": "/artifacts/deliv_3bedec0d51ab/003_03_tee_on_model_hair_shadow.png",
+        "highlight_map": "/artifacts/deliv_3bedec0d51ab/003_03_tee_on_model_hair_highlight.png",
+        "displacement_map": "/artifacts/deliv_3bedec0d51ab/003_03_tee_on_model_hair_displacement.png",
+        "print_area_preview": null,
+        "trimap": "/artifacts/deliv_3bedec0d51ab/003_03_tee_on_model_hair_trimap.png"
+      },
+      "error": null
+    },
+    {
+      "id": "004_04_hoodie_folds",
+      "source": "04_hoodie_folds.png",
+      "status": "ok",
+      "verdict": "READY",
+      "confidence": 0.9605,
+      "reasons": [
+        "Clean single-piece mask, edges align with the source image, models agree."
+      ],
+      "category": "apparel",
+      "category_source": "metadata",
+      "width": 1300,
+      "height": 1500,
+      "model_used": "birefnet",
+      "models_tried": [
+        "birefnet",
+        "u2net"
+      ],
+      "timings_ms": {
+        "load": 36.72,
+        "segment": 1488.52,
+        "cross_check": 455.64,
+        "classify": 0.07,
+        "refine": 720.71,
+        "qc": 432.59,
+        "print_area": 149.84,
+        "artifacts": 2797.16,
+        "total": 6082.26
+      },
+      "metrics": {
+        "coverage": 0.38253,
+        "edge_sharpness": 1.0,
+        "uncertain_ratio": 0.00162,
+        "boundary_complexity": 0.118,
+        "component_penalty": 0.0,
+        "border_contact": 0.0454,
+        "ensemble_iou": 0.938,
+        "holes": 0,
+        "solidity": 0.7748
+      },
+      "print_area": {
+        "kind": "torso",
+        "quad": [
+          [
+            443.75,
+            371.875
+          ],
+          [
+            856.25,
+            371.875
+          ],
+          [
+            856.25,
+            1003.125
+          ],
+          [
+            443.75,
+            1003.125
+          ]
+        ],
+        "bbox": [
+          443.75,
+          371.875,
+          412.5,
+          631.25
+        ],
+        "area_px": 262062,
+        "coverage_of_product": 0.3513,
+        "perspective_matrix": [
+          [
+            412.5,
+            0.0,
+            443.75
+          ],
+          [
+            0.0,
+            631.25,
+            371.875
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "confidence": 0.971
+      },
+      "artifacts": {
+        "alpha_mask": "/artifacts/deliv_3bedec0d51ab/004_04_hoodie_folds_mask.png",
+        "cutout_rgba": "/artifacts/deliv_3bedec0d51ab/004_04_hoodie_folds_cutout.png",
+        "overlay": "/artifacts/deliv_3bedec0d51ab/004_04_hoodie_folds_overlay.jpg",
+        "shadow_map": "/artifacts/deliv_3bedec0d51ab/004_04_hoodie_folds_shadow.png",
+        "highlight_map": "/artifacts/deliv_3bedec0d51ab/004_04_hoodie_folds_highlight.png",
+        "displacement_map": "/artifacts/deliv_3bedec0d51ab/004_04_hoodie_folds_displacement.png",
+        "print_area_preview": null,
+        "trimap": "/artifacts/deliv_3bedec0d51ab/004_04_hoodie_folds_trimap.png"
+      },
+      "error": null
+    },
+    {
+      "id": "005_05_tote_two_handles",
+      "source": "05_tote_two_handles.png",
+      "status": "ok",
+      "verdict": "READY",
+      "confidence": 0.9467,
+      "reasons": [
+        "Clean single-piece mask, edges align with the source image, models agree."
+      ],
+      "category": "apparel",
+      "category_source": "metadata",
+      "width": 1200,
+      "height": 1400,
+      "model_used": "birefnet",
+      "models_tried": [
+        "birefnet",
+        "u2net"
+      ],
+      "timings_ms": {
+        "load": 43.33,
+        "segment": 1321.61,
+        "cross_check": 449.03,
+        "classify": 0.07,
+        "refine": 701.39,
+        "qc": 494.49,
+        "print_area": 124.0,
+        "artifacts": 2045.81,
+        "total": 5180.7
+      },
+      "metrics": {
+        "coverage": 0.21402,
+        "edge_sharpness": 1.0,
+        "uncertain_ratio": 0.00851,
+        "boundary_complexity": 0.3342,
+        "component_penalty": 0.0,
+        "border_contact": 0.0,
+        "ensemble_iou": 0.9731,
+        "holes": 2,
+        "solidity": 0.9433
+      },
+      "print_area": {
+        "kind": "torso",
+        "quad": [
+          [
+            417.0833435058594,
+            527.9166870117188
+          ],
+          [
+            778.75,
+            527.9166870117188
+          ],
+          [
+            778.75,
+            939.1666870117188
+          ],
+          [
+            417.0833435058594,
+            939.1666870117188
+          ]
+        ],
+        "bbox": [
+          417.0833435058594,
+          527.9166870117188,
+          361.6666564941406,
+          411.25
+        ],
+        "area_px": 149506,
+        "coverage_of_product": 0.4158,
+        "perspective_matrix": [
+          [
+            361.6666564941406,
+            0.0,
+            417.0833435058594
+          ],
+          [
+            0.0,
+            411.25,
+            527.9166870117188
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "confidence": 0.8878
+      },
+      "artifacts": {
+        "alpha_mask": "/artifacts/deliv_3bedec0d51ab/005_05_tote_two_handles_mask.png",
+        "cutout_rgba": "/artifacts/deliv_3bedec0d51ab/005_05_tote_two_handles_cutout.png",
+        "overlay": "/artifacts/deliv_3bedec0d51ab/005_05_tote_two_handles_overlay.jpg",
+        "shadow_map": "/artifacts/deliv_3bedec0d51ab/005_05_tote_two_handles_shadow.png",
+        "highlight_map": "/artifacts/deliv_3bedec0d51ab/005_05_tote_two_handles_highlight.png",
+        "displacement_map": "/artifacts/deliv_3bedec0d51ab/005_05_tote_two_handles_displacement.png",
+        "print_area_preview": null,
+        "trimap": "/artifacts/deliv_3bedec0d51ab/005_05_tote_two_handles_trimap.png"
+      },
+      "error": null
+    },
+    {
+      "id": "006_06_tee_hanger_busy_wall",
+      "source": "06_tee_hanger_busy_wall.png",
+      "status": "ok",
+      "verdict": "READY",
+      "confidence": 0.9816,
+      "reasons": [
+        "Clean single-piece mask, edges align with the source image, models agree."
+      ],
+      "category": "apparel",
+      "category_source": "metadata",
+      "width": 1100,
+      "height": 1500,
+      "model_used": "birefnet",
+      "models_tried": [
+        "birefnet",
+        "u2net"
+      ],
+      "timings_ms": {
+        "load": 29.5,
+        "segment": 1606.8,
+        "cross_check": 469.91,
+        "classify": 0.06,
+        "refine": 571.97,
+        "qc": 424.54,
+        "print_area": 106.87,
+        "artifacts": 2075.97,
+        "total": 5286.78
+      },
+      "metrics": {
+        "coverage": 0.26848,
+        "edge_sharpness": 1.0,
+        "uncertain_ratio": 0.002,
+        "boundary_complexity": 0.1015,
+        "component_penalty": 0.0,
+        "border_contact": 0.0,
+        "ensemble_iou": 0.9764,
+        "holes": 0,
+        "solidity": 0.8158
+      },
+      "print_area": {
+        "kind": "torso",
+        "quad": [
+          [
+            421.875,
+            493.75
+          ],
+          [
+            700.0,
+            493.75
+          ],
+          [
+            700.0,
+            990.625
+          ],
+          [
+            421.875,
+            990.625
+          ]
+        ],
+        "bbox": [
+          421.875,
+          493.75,
+          278.125,
+          496.875
+        ],
+        "area_px": 139440,
+        "coverage_of_product": 0.3148,
+        "perspective_matrix": [
+          [
+            278.125,
+            0.0,
+            421.875
+          ],
+          [
+            0.0,
+            496.875,
+            493.75
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "confidence": 0.9157
+      },
+      "artifacts": {
+        "alpha_mask": "/artifacts/deliv_3bedec0d51ab/006_06_tee_hanger_busy_wall_mask.png",
+        "cutout_rgba": "/artifacts/deliv_3bedec0d51ab/006_06_tee_hanger_busy_wall_cutout.png",
+        "overlay": "/artifacts/deliv_3bedec0d51ab/006_06_tee_hanger_busy_wall_overlay.jpg",
+        "shadow_map": "/artifacts/deliv_3bedec0d51ab/006_06_tee_hanger_busy_wall_shadow.png",
+        "highlight_map": "/artifacts/deliv_3bedec0d51ab/006_06_tee_hanger_busy_wall_highlight.png",
+        "displacement_map": "/artifacts/deliv_3bedec0d51ab/006_06_tee_hanger_busy_wall_displacement.png",
+        "print_area_preview": null,
+        "trimap": "/artifacts/deliv_3bedec0d51ab/006_06_tee_hanger_busy_wall_trimap.png"
+      },
+      "error": null
+    },
+    {
+      "id": "007_07_tee_hard_flash_shadow",
+      "source": "07_tee_hard_flash_shadow.png",
+      "status": "ok",
+      "verdict": "READY",
+      "confidence": 0.9353,
+      "reasons": [
+        "Clean single-piece mask, edges align with the source image, models agree."
+      ],
+      "category": "apparel",
+      "category_source": "metadata",
+      "width": 1200,
+      "height": 1400,
+      "model_used": "birefnet",
+      "models_tried": [
+        "birefnet",
+        "u2net"
+      ],
+      "timings_ms": {
+        "load": 29.58,
+        "segment": 1147.84,
+        "cross_check": 464.57,
+        "classify": 0.06,
+        "refine": 738.49,
+        "qc": 513.56,
+        "print_area": 165.58,
+        "artifacts": 2035.05,
+        "total": 5095.69
+      },
+      "metrics": {
+        "coverage": 0.33698,
+        "edge_sharpness": 1.0,
+        "uncertain_ratio": 0.00715,
+        "boundary_complexity": 0.1206,
+        "component_penalty": 0.0,
+        "border_contact": 0.0,
+        "ensemble_iou": 0.9761,
+        "holes": 0,
+        "solidity": 0.7832
+      },
+      "print_area": {
+        "kind": "torso",
+        "quad": [
+          [
+            422.91668701171875,
+            411.25
+          ],
+          [
+            772.9166870117188,
+            411.25
+          ],
+          [
+            772.9166870117188,
+            956.6666870117188
+          ],
+          [
+            422.91668701171875,
+            956.6666870117188
+          ]
+        ],
+        "bbox": [
+          422.91668701171875,
+          411.25,
+          350.0,
+          545.4166870117188
+        ],
+        "area_px": 191646,
+        "coverage_of_product": 0.3385,
+        "perspective_matrix": [
+          [
+            350.0,
+            0.0,
+            422.91668701171875
+          ],
+          [
+            0.0,
+            545.4166870117188,
+            411.25
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "confidence": 0.9685
+      },
+      "artifacts": {
+        "alpha_mask": "/artifacts/deliv_3bedec0d51ab/007_07_tee_hard_flash_shadow_mask.png",
+        "cutout_rgba": "/artifacts/deliv_3bedec0d51ab/007_07_tee_hard_flash_shadow_cutout.png",
+        "overlay": "/artifacts/deliv_3bedec0d51ab/007_07_tee_hard_flash_shadow_overlay.jpg",
+        "shadow_map": "/artifacts/deliv_3bedec0d51ab/007_07_tee_hard_flash_shadow_shadow.png",
+        "highlight_map": "/artifacts/deliv_3bedec0d51ab/007_07_tee_hard_flash_shadow_highlight.png",
+        "displacement_map": "/artifacts/deliv_3bedec0d51ab/007_07_tee_hard_flash_shadow_displacement.png",
+        "print_area_preview": null,
+        "trimap": "/artifacts/deliv_3bedec0d51ab/007_07_tee_hard_flash_shadow_trimap.png"
+      },
+      "error": null
+    },
+    {
+      "id": "008_08_mug_white_on_white",
+      "source": "08_mug_white_on_white.png",
+      "status": "ok",
+      "verdict": "READY",
+      "confidence": 0.9688,
+      "reasons": [
+        "Clean single-piece mask, edges align with the source image, models agree."
+      ],
+      "category": "drinkware",
+      "category_source": "metadata",
+      "width": 1100,
+      "height": 1300,
+      "model_used": "birefnet",
+      "models_tried": [
+        "birefnet",
+        "u2net"
+      ],
+      "timings_ms": {
+        "load": 30.22,
+        "segment": 1302.86,
+        "cross_check": 454.01,
+        "classify": 0.08,
+        "refine": 134.97,
+        "qc": 486.88,
+        "print_area": 116.44,
+        "artifacts": 1506.3,
+        "total": 4032.88
+      },
+      "metrics": {
+        "coverage": 0.16217,
+        "edge_sharpness": 1.0,
+        "uncertain_ratio": 0.00234,
+        "boundary_complexity": 0.1821,
+        "component_penalty": 0.0,
+        "border_contact": 0.0,
+        "ensemble_iou": 0.9838,
+        "holes": 1,
+        "solidity": 0.9707
+      },
+      "print_area": {
+        "kind": "cylinder",
+        "quad": [
+          [
+            385.82916259765625,
+            502.7749938964844
+          ],
+          [
+            656.879150390625,
+            502.7749938964844
+          ],
+          [
+            656.879150390625,
+            836.441650390625
+          ],
+          [
+            385.82916259765625,
+            836.441650390625
+          ]
+        ],
+        "bbox": [
+          385.82916259765625,
+          502.7749938964844,
+          271.04998779296875,
+          333.6666564941406
+        ],
+        "area_px": 91120,
+        "coverage_of_product": 0.3929,
+        "perspective_matrix": [
+          [
+            271.04998779296875,
+            0.0,
+            385.82916259765625
+          ],
+          [
+            0.0,
+            333.6666564941406,
+            502.7749938964844
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "confidence": 0.6797
+      },
+      "artifacts": {
+        "alpha_mask": "/artifacts/deliv_3bedec0d51ab/008_08_mug_white_on_white_mask.png",
+        "cutout_rgba": "/artifacts/deliv_3bedec0d51ab/008_08_mug_white_on_white_cutout.png",
+        "overlay": "/artifacts/deliv_3bedec0d51ab/008_08_mug_white_on_white_overlay.jpg",
+        "shadow_map": "/artifacts/deliv_3bedec0d51ab/008_08_mug_white_on_white_shadow.png",
+        "highlight_map": "/artifacts/deliv_3bedec0d51ab/008_08_mug_white_on_white_highlight.png",
+        "displacement_map": null,
+        "print_area_preview": null,
+        "trimap": "/artifacts/deliv_3bedec0d51ab/008_08_mug_white_on_white_trimap.png"
+      },
+      "error": null
+    },
+    {
+      "id": "009_09_mug_dark_cluttered_desk",
+      "source": "09_mug_dark_cluttered_desk.png",
+      "status": "ok",
+      "verdict": "REVIEW",
+      "confidence": 0.8306,
+      "reasons": [
+        "Cross-check model disagrees (IoU 0.52, agreement score 0.54) - ambiguous product boundary.",
+        "Mask is split into 2 separate pieces.",
+        "Silhouette is atypical for drinkware (bbox fill 0.4958, aspect 1.633) - the mask may include a neighbouring object.",
+        "Product is cropped by the frame on 10% of the border.",
+        "Highly complex outline (hair / fringe / fine detail) - human spot-check recommended."
+      ],
+      "category": "drinkware",
+      "category_source": "metadata",
+      "width": 1500,
+      "height": 1200,
+      "model_used": "birefnet",
+      "models_tried": [
+        "birefnet",
+        "u2net"
+      ],
+      "timings_ms": {
+        "load": 31.04,
+        "segment": 1205.71,
+        "cross_check": 507.3,
+        "classify": 0.07,
+        "refine": 165.88,
+        "qc": 453.29,
+        "print_area": 219.24,
+        "artifacts": 2245.85,
+        "total": 4829.22
+      },
+      "metrics": {
+        "coverage": 0.31202,
+        "edge_sharpness": 1.0,
+        "uncertain_ratio": 0.00348,
+        "boundary_complexity": 0.4858,
+        "component_penalty": 0.25,
+        "border_contact": 0.0956,
+        "ensemble_iou": 0.5153,
+        "holes": 1,
+        "solidity": 0.8084
+      },
+      "print_area": {
+        "kind": "quad",
+        "quad": [
+          [
+            558.4375,
+            447.1875305175781
+          ],
+          [
+            1213.4375,
+            494.6875
+          ],
+          [
+            985.9375,
+            839.6875610351562
+          ],
+          [
+            160.9375,
+            962.1875
+          ]
+        ],
+        "bbox": [
+          160.9375,
+          447.1875305175781,
+          1052.5,
+          515.0
+        ],
+        "area_px": 307477,
+        "coverage_of_product": 0.5475,
+        "perspective_matrix": [
+          [
+            1219.4055718947884,
+            -410.0205551183876,
+            558.4375
+          ],
+          [
+            277.59371666487107,
+            440.14406810472184,
+            447.1875305175781
+          ],
+          [
+            0.4651294952519504,
+            -0.0777976240365834,
+            1.0
+          ]
+        ],
+        "confidence": 0.5934
+      },
+      "artifacts": {
+        "alpha_mask": "/artifacts/deliv_3bedec0d51ab/009_09_mug_dark_cluttered_desk_mask.png",
+        "cutout_rgba": "/artifacts/deliv_3bedec0d51ab/009_09_mug_dark_cluttered_desk_cutout.png",
+        "overlay": "/artifacts/deliv_3bedec0d51ab/009_09_mug_dark_cluttered_desk_overlay.jpg",
+        "shadow_map": "/artifacts/deliv_3bedec0d51ab/009_09_mug_dark_cluttered_desk_shadow.png",
+        "highlight_map": "/artifacts/deliv_3bedec0d51ab/009_09_mug_dark_cluttered_desk_highlight.png",
+        "displacement_map": null,
+        "print_area_preview": null,
+        "trimap": "/artifacts/deliv_3bedec0d51ab/009_09_mug_dark_cluttered_desk_trimap.png"
+      },
+      "error": null
+    },
+    {
+      "id": "010_10_tumbler_no_handle",
+      "source": "10_tumbler_no_handle.png",
+      "status": "ok",
+      "verdict": "READY",
+      "confidence": 0.9951,
+      "reasons": [
+        "Clean single-piece mask, edges align with the source image, models agree."
+      ],
+      "category": "drinkware",
+      "category_source": "metadata",
+      "width": 1000,
+      "height": 1500,
+      "model_used": "birefnet",
+      "models_tried": [
+        "birefnet",
+        "u2net"
+      ],
+      "timings_ms": {
+        "load": 26.39,
+        "segment": 2074.84,
+        "cross_check": 445.86,
+        "classify": 0.05,
+        "refine": 138.49,
+        "qc": 317.91,
+        "print_area": 113.57,
+        "artifacts": 1607.0,
+        "total": 4725.25
+      },
+      "metrics": {
+        "coverage": 0.18993,
+        "edge_sharpness": 1.0,
+        "uncertain_ratio": 0.00124,
+        "boundary_complexity": 0.0397,
+        "component_penalty": 0.0,
+        "border_contact": 0.0,
+        "ensemble_iou": 0.9942,
+        "holes": 0,
+        "solidity": 0.9959
+      },
+      "print_area": {
+        "kind": "cylinder",
+        "quad": [
+          [
+            399.1875,
+            448.9375
+          ],
+          [
+            603.9375,
+            448.9375
+          ],
+          [
+            603.9375,
+            1037.375
+          ],
+          [
+            399.1875,
+            1037.375
+          ]
+        ],
+        "bbox": [
+          399.1875,
+          448.9375,
+          204.75,
+          588.4375
+        ],
+        "area_px": 120950,
+        "coverage_of_product": 0.4245,
+        "perspective_matrix": [
+          [
+            204.75,
+            0.0,
+            399.1875
+          ],
+          [
+            0.0,
+            588.4375,
+            448.9375
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "confidence": 0.6817
+      },
+      "artifacts": {
+        "alpha_mask": "/artifacts/deliv_3bedec0d51ab/010_10_tumbler_no_handle_mask.png",
+        "cutout_rgba": "/artifacts/deliv_3bedec0d51ab/010_10_tumbler_no_handle_cutout.png",
+        "overlay": "/artifacts/deliv_3bedec0d51ab/010_10_tumbler_no_handle_overlay.jpg",
+        "shadow_map": "/artifacts/deliv_3bedec0d51ab/010_10_tumbler_no_handle_shadow.png",
+        "highlight_map": "/artifacts/deliv_3bedec0d51ab/010_10_tumbler_no_handle_highlight.png",
+        "displacement_map": null,
+        "print_area_preview": null,
+        "trimap": "/artifacts/deliv_3bedec0d51ab/010_10_tumbler_no_handle_trimap.png"
+      },
+      "error": null
+    },
+    {
+      "id": "011_11_bottle_translucent",
+      "source": "11_bottle_translucent.png",
+      "status": "ok",
+      "verdict": "READY",
+      "confidence": 0.9361,
+      "reasons": [
+        "Clean single-piece mask, edges align with the source image, models agree."
+      ],
+      "category": "drinkware",
+      "category_source": "metadata",
+      "width": 1000,
+      "height": 1600,
+      "model_used": "birefnet",
+      "models_tried": [
+        "birefnet",
+        "u2net"
+      ],
+      "timings_ms": {
+        "load": 31.87,
+        "segment": 1155.46,
+        "cross_check": 471.53,
+        "classify": 0.05,
+        "refine": 154.27,
+        "qc": 356.56,
+        "print_area": 100.13,
+        "artifacts": 1984.98,
+        "total": 4255.57
+      },
+      "metrics": {
+        "coverage": 0.1558,
+        "edge_sharpness": 1.0,
+        "uncertain_ratio": 0.00366,
+        "boundary_complexity": 0.1492,
+        "component_penalty": 0.0,
+        "border_contact": 0.0,
+        "ensemble_iou": 0.9835,
+        "holes": 0,
+        "solidity": 0.9299
+      },
+      "print_area": {
+        "kind": "cylinder",
+        "quad": [
+          [
+            406.86663818359375,
+            672.5999755859375
+          ],
+          [
+            596.4666748046875,
+            672.5999755859375
+          ],
+          [
+            596.4666748046875,
+            1202.2666015625
+          ],
+          [
+            406.86663818359375,
+            1202.2666015625
+          ]
+        ],
+        "bbox": [
+          406.86663818359375,
+          672.5999755859375,
+          189.60003662109375,
+          529.6666259765625
+        ],
+        "area_px": 101421,
+        "coverage_of_product": 0.4069,
+        "perspective_matrix": [
+          [
+            189.60003662109375,
+            0.0,
+            406.86663818359375
+          ],
+          [
+            0.0,
+            529.6666259765625,
+            672.5999755859375
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "confidence": 0.6668
+      },
+      "artifacts": {
+        "alpha_mask": "/artifacts/deliv_3bedec0d51ab/011_11_bottle_translucent_mask.png",
+        "cutout_rgba": "/artifacts/deliv_3bedec0d51ab/011_11_bottle_translucent_cutout.png",
+        "overlay": "/artifacts/deliv_3bedec0d51ab/011_11_bottle_translucent_overlay.jpg",
+        "shadow_map": "/artifacts/deliv_3bedec0d51ab/011_11_bottle_translucent_shadow.png",
+        "highlight_map": "/artifacts/deliv_3bedec0d51ab/011_11_bottle_translucent_highlight.png",
+        "displacement_map": null,
+        "print_area_preview": null,
+        "trimap": "/artifacts/deliv_3bedec0d51ab/011_11_bottle_translucent_trimap.png"
+      },
+      "error": null
+    },
+    {
+      "id": "012_12_canvas_straight",
+      "source": "12_canvas_straight.png",
+      "status": "ok",
+      "verdict": "READY",
+      "confidence": 0.9859,
+      "reasons": [
+        "Clean single-piece mask, edges align with the source image, models agree."
+      ],
+      "category": "wall_art",
+      "category_source": "metadata",
+      "width": 1500,
+      "height": 1200,
+      "model_used": "birefnet",
+      "models_tried": [
+        "birefnet",
+        "u2net"
+      ],
+      "timings_ms": {
+        "load": 30.37,
+        "segment": 2152.38,
+        "cross_check": 443.15,
+        "classify": 0.06,
+        "refine": 150.17,
+        "qc": 434.35,
+        "print_area": 12.34,
+        "artifacts": 1994.01,
+        "total": 5217.71
+      },
+      "metrics": {
+        "coverage": 0.33541,
+        "edge_sharpness": 1.0,
+        "uncertain_ratio": 0.00038,
+        "boundary_complexity": 0.0,
+        "component_penalty": 0.0,
+        "border_contact": 0.0,
+        "ensemble_iou": 0.9887,
+        "holes": 0,
+        "solidity": 0.9986
+      },
+      "print_area": {
+        "kind": "quad",
+        "quad": [
+          [
+            346.0703430175781,
+            253.17578125
+          ],
+          [
+            1163.3046875,
+            262.22265625
+          ],
+          [
+            1163.3046875,
+            946.76953125
+          ],
+          [
+            346.0703430175781,
+            934.7070922851562
+          ]
+        ],
+        "bbox": [
+          346.0703430175781,
+          253.17578125,
+          817.234375,
+          693.59375
+        ],
+        "area_px": 559103,
+        "coverage_of_product": 0.9261,
+        "perspective_matrix": [
+          [
+            812.1097579509899,
+            0.0,
+            346.0703430175781
+          ],
+          [
+            7.891732493574695,
+            681.5313110351562,
+            253.17578125
+          ],
+          [
+            -0.004405197182214512,
+            0.0,
+            1.0
+          ]
+        ],
+        "confidence": 0.9972
+      },
+      "artifacts": {
+        "alpha_mask": "/artifacts/deliv_3bedec0d51ab/012_12_canvas_straight_mask.png",
+        "cutout_rgba": "/artifacts/deliv_3bedec0d51ab/012_12_canvas_straight_cutout.png",
+        "overlay": "/artifacts/deliv_3bedec0d51ab/012_12_canvas_straight_overlay.jpg",
+        "shadow_map": "/artifacts/deliv_3bedec0d51ab/012_12_canvas_straight_shadow.png",
+        "highlight_map": "/artifacts/deliv_3bedec0d51ab/012_12_canvas_straight_highlight.png",
+        "displacement_map": null,
+        "print_area_preview": null,
+        "trimap": "/artifacts/deliv_3bedec0d51ab/012_12_canvas_straight_trimap.png"
+      },
+      "error": null
+    },
+    {
+      "id": "013_13_canvas_perspective",
+      "source": "13_canvas_perspective.png",
+      "status": "ok",
+      "verdict": "READY",
+      "confidence": 0.996,
+      "reasons": [
+        "Clean single-piece mask, edges align with the source image, models agree."
+      ],
+      "category": "wall_art",
+      "category_source": "metadata",
+      "width": 1600,
+      "height": 1200,
+      "model_used": "birefnet",
+      "models_tried": [
+        "birefnet",
+        "u2net"
+      ],
+      "timings_ms": {
+        "load": 30.42,
+        "segment": 1119.39,
+        "cross_check": 442.02,
+        "classify": 0.07,
+        "refine": 179.03,
+        "qc": 428.36,
+        "print_area": 29.56,
+        "artifacts": 2275.77,
+        "total": 4505.65
+      },
+      "metrics": {
+        "coverage": 0.3262,
+        "edge_sharpness": 1.0,
+        "uncertain_ratio": 0.00067,
+        "boundary_complexity": 0.0,
+        "component_penalty": 0.0,
+        "border_contact": 0.0,
+        "ensemble_iou": 0.9908,
+        "holes": 0,
+        "solidity": 0.9975
+      },
+      "print_area": {
+        "kind": "quad",
+        "quad": [
+          [
+            435.51666259765625,
+            310.4708251953125
+          ],
+          [
+            1281.5,
+            204.3208465576172
+          ],
+          [
+            1291.1500244140625,
+            889.4708251953125
+          ],
+          [
+            445.1666564941406,
+            992.4041748046875
+          ]
+        ],
+        "bbox": [
+          435.51666259765625,
+          204.3208465576172,
+          855.6333618164062,
+          788.0833129882812
+        ],
+        "area_px": 580817,
+        "coverage_of_product": 0.9274,
+        "perspective_matrix": [
+          [
+            839.9772614090052,
+            9.673776986728827,
+            435.51666259765625
+          ],
+          [
+            -107.10758030094019,
+            681.9863689397854,
+            310.4708251953125
+          ],
+          [
+            -0.004686754579273122,
+            5.34251384228845e-05,
+            1.0
+          ]
+        ],
+        "confidence": 0.993
+      },
+      "artifacts": {
+        "alpha_mask": "/artifacts/deliv_3bedec0d51ab/013_13_canvas_perspective_mask.png",
+        "cutout_rgba": "/artifacts/deliv_3bedec0d51ab/013_13_canvas_perspective_cutout.png",
+        "overlay": "/artifacts/deliv_3bedec0d51ab/013_13_canvas_perspective_overlay.jpg",
+        "shadow_map": "/artifacts/deliv_3bedec0d51ab/013_13_canvas_perspective_shadow.png",
+        "highlight_map": "/artifacts/deliv_3bedec0d51ab/013_13_canvas_perspective_highlight.png",
+        "displacement_map": null,
+        "print_area_preview": null,
+        "trimap": "/artifacts/deliv_3bedec0d51ab/013_13_canvas_perspective_trimap.png"
+      },
+      "error": null
+    },
+    {
+      "id": "014_14_framed_print",
+      "source": "14_framed_print.png",
+      "status": "ok",
+      "verdict": "REVIEW",
+      "confidence": 0.8289,
+      "reasons": [
+        "Cross-check model disagrees (IoU 0.74, agreement score 0.57) - ambiguous product boundary.",
+        "Only 50% of the pixels just outside the mask look like background - the mask may be a sub-region of a larger object (e.g. the print inside a frame) rather than the whole product."
+      ],
+      "category": "wall_art",
+      "category_source": "metadata",
+      "width": 1100,
+      "height": 1400,
+      "model_used": "birefnet",
+      "models_tried": [
+        "birefnet",
+        "u2net"
+      ],
+      "timings_ms": {
+        "load": 25.08,
+        "segment": 1078.47,
+        "cross_check": 459.69,
+        "classify": 0.08,
+        "refine": 129.8,
+        "qc": 387.39,
+        "print_area": 11.39,
+        "artifacts": 1553.2,
+        "total": 3646.12
+      },
+      "metrics": {
+        "coverage": 0.26611,
+        "edge_sharpness": 1.0,
+        "uncertain_ratio": 0.0019,
+        "boundary_complexity": 0.0,
+        "component_penalty": 0.0,
+        "border_contact": 0.0,
+        "ensemble_iou": 0.7406,
+        "holes": 0,
+        "solidity": 0.9957
+      },
+      "print_area": {
+        "kind": "quad",
+        "quad": [
+          [
+            377.30731201171875,
+            245.4484405517578
+          ],
+          [
+            791.0510864257812,
+            304.5547180175781
+          ],
+          [
+            791.0510864257812,
+            1044.7901611328125
+          ],
+          [
+            309.7572937011719,
+            1044.7901611328125
+          ]
+        ],
+        "bbox": [
+          309.7572937011719,
+          245.4484405517578,
+          481.2937927246094,
+          799.3417358398438
+        ],
+        "area_px": 346958,
+        "coverage_of_product": 0.8466,
+        "perspective_matrix": [
+          [
+            476.9075764702715,
+            -111.02473412370537,
+            377.30731201171875
+          ],
+          [
+            83.4243452293891,
+            652.7044782520575,
+            245.4484405517578
+          ],
+          [
+            0.07984794299645429,
+            -0.14035090277841625,
+            1.0
+          ]
+        ],
+        "confidence": 0.9103
+      },
+      "artifacts": {
+        "alpha_mask": "/artifacts/deliv_3bedec0d51ab/014_14_framed_print_mask.png",
+        "cutout_rgba": "/artifacts/deliv_3bedec0d51ab/014_14_framed_print_cutout.png",
+        "overlay": "/artifacts/deliv_3bedec0d51ab/014_14_framed_print_overlay.jpg",
+        "shadow_map": "/artifacts/deliv_3bedec0d51ab/014_14_framed_print_shadow.png",
+        "highlight_map": "/artifacts/deliv_3bedec0d51ab/014_14_framed_print_highlight.png",
+        "displacement_map": null,
+        "print_area_preview": null,
+        "trimap": "/artifacts/deliv_3bedec0d51ab/014_14_framed_print_trimap.png"
+      },
+      "error": null
+    },
+    {
+      "id": "015_15_poster_dark_clipped",
+      "source": "15_poster_dark_clipped.png",
+      "status": "ok",
+      "verdict": "REVIEW",
+      "confidence": 0.9724,
+      "reasons": [
+        "Product is cropped by the frame on 16% of the border."
+      ],
+      "category": "wall_art",
+      "category_source": "metadata",
+      "width": 1000,
+      "height": 1200,
+      "model_used": "birefnet",
+      "models_tried": [
+        "birefnet",
+        "u2net"
+      ],
+      "timings_ms": {
+        "load": 26.35,
+        "segment": 1242.59,
+        "cross_check": 487.29,
+        "classify": 0.06,
+        "refine": 111.58,
+        "qc": 289.61,
+        "print_area": 8.27,
+        "artifacts": 1315.26,
+        "total": 3481.77
+      },
+      "metrics": {
+        "coverage": 0.54231,
+        "edge_sharpness": 1.0,
+        "uncertain_ratio": 0.00129,
+        "boundary_complexity": 0.0,
+        "component_penalty": 0.0,
+        "border_contact": 0.1641,
+        "ensemble_iou": 0.9943,
+        "holes": 0,
+        "solidity": 0.9979
+      },
+      "print_area": {
+        "kind": "quad",
+        "quad": [
+          [
+            192.578125,
+            15.531272888183594
+          ],
+          [
+            887.3780517578125,
+            15.531272888183594
+          ],
+          [
+            894.6156005859375,
+            862.3187255859375
+          ],
+          [
+            182.92813110351562,
+            881.6187133789062
+          ]
+        ],
+        "bbox": [
+          182.92813110351562,
+          15.531272888183594,
+          711.6875,
+          866.0874633789062
+        ],
+        "area_px": 604096,
+        "coverage_of_product": 0.9283,
+        "perspective_matrix": [
+          [
+            714.5405607460483,
+            -14.032056832908637,
+            192.578125
+          ],
+          [
+            0.34550907907819206,
+            844.9681699627273,
+            15.531272888183594
+          ],
+          [
+            0.022246024621784873,
+            -0.023955106904495385,
+            1.0
+          ]
+        ],
+        "confidence": 0.997
+      },
+      "artifacts": {
+        "alpha_mask": "/artifacts/deliv_3bedec0d51ab/015_15_poster_dark_clipped_mask.png",
+        "cutout_rgba": "/artifacts/deliv_3bedec0d51ab/015_15_poster_dark_clipped_cutout.png",
+        "overlay": "/artifacts/deliv_3bedec0d51ab/015_15_poster_dark_clipped_overlay.jpg",
+        "shadow_map": "/artifacts/deliv_3bedec0d51ab/015_15_poster_dark_clipped_shadow.png",
+        "highlight_map": "/artifacts/deliv_3bedec0d51ab/015_15_poster_dark_clipped_highlight.png",
+        "displacement_map": null,
+        "print_area_preview": null,
+        "trimap": "/artifacts/deliv_3bedec0d51ab/015_15_poster_dark_clipped_trimap.png"
+      },
+      "error": null
+    },
+    {
+      "id": "016_16_phone_case",
+      "source": "16_phone_case.png",
+      "status": "ok",
+      "verdict": "READY",
+      "confidence": 0.9986,
+      "reasons": [
+        "Clean single-piece mask, edges align with the source image, models agree."
+      ],
+      "category": "accessory",
+      "category_source": "metadata",
+      "width": 1000,
+      "height": 1400,
+      "model_used": "birefnet",
+      "models_tried": [
+        "birefnet",
+        "u2net"
+      ],
+      "timings_ms": {
+        "load": 28.45,
+        "segment": 2064.69,
+        "cross_check": 452.48,
+        "classify": 0.09,
+        "refine": 126.41,
+        "qc": 351.25,
+        "print_area": 9.41,
+        "artifacts": 1854.74,
+        "total": 4890.83
+      },
+      "metrics": {
+        "coverage": 0.24548,
+        "edge_sharpness": 1.0,
+        "uncertain_ratio": 0.00088,
+        "boundary_complexity": 0.0069,
+        "component_penalty": 0.0,
+        "border_contact": 0.0,
+        "ensemble_iou": 0.9952,
+        "holes": 0,
+        "solidity": 0.9999
+      },
+      "print_area": {
+        "kind": "quad",
+        "quad": [
+          [
+            359.1182556152344,
+            289.45367431640625
+          ],
+          [
+            716.5703125,
+            309.1557312011719
+          ],
+          [
+            702.4974365234375,
+            1128.199462890625
+          ],
+          [
+            342.2307434082031,
+            1116.941162109375
+          ]
+        ],
+        "bbox": [
+          342.2307434082031,
+          289.45367431640625,
+          374.3395690917969,
+          838.7457885742188
+        ],
+        "area_px": 296476,
+        "coverage_of_product": 0.8627,
+        "perspective_matrix": [
+          [
+            364.9123319895929,
+            -19.42206091456977,
+            359.1182556152344
+          ],
+          [
+            22.92070377085856,
+            819.2154612922864,
+            289.45367431640625
+          ],
+          [
+            0.010411085939074876,
+            -0.007405964415404322,
+            1.0
+          ]
+        ],
+        "confidence": 0.9341
+      },
+      "artifacts": {
+        "alpha_mask": "/artifacts/deliv_3bedec0d51ab/016_16_phone_case_mask.png",
+        "cutout_rgba": "/artifacts/deliv_3bedec0d51ab/016_16_phone_case_cutout.png",
+        "overlay": "/artifacts/deliv_3bedec0d51ab/016_16_phone_case_overlay.jpg",
+        "shadow_map": "/artifacts/deliv_3bedec0d51ab/016_16_phone_case_shadow.png",
+        "highlight_map": "/artifacts/deliv_3bedec0d51ab/016_16_phone_case_highlight.png",
+        "displacement_map": "/artifacts/deliv_3bedec0d51ab/016_16_phone_case_displacement.png",
+        "print_area_preview": null,
+        "trimap": "/artifacts/deliv_3bedec0d51ab/016_16_phone_case_trimap.png"
+      },
+      "error": null
+    },
+    {
+      "id": "017_17_cap",
+      "source": "17_cap.png",
+      "status": "ok",
+      "verdict": "READY",
+      "confidence": 0.9774,
+      "reasons": [
+        "Clean single-piece mask, edges align with the source image, models agree."
+      ],
+      "category": "accessory",
+      "category_source": "metadata",
+      "width": 1400,
+      "height": 1100,
+      "model_used": "birefnet",
+      "models_tried": [
+        "birefnet",
+        "u2net"
+      ],
+      "timings_ms": {
+        "load": 25.93,
+        "segment": 989.27,
+        "cross_check": 495.18,
+        "classify": 0.08,
+        "refine": 159.99,
+        "qc": 406.22,
+        "print_area": 9.78,
+        "artifacts": 1954.37,
+        "total": 4041.61
+      },
+      "metrics": {
+        "coverage": 0.10219,
+        "edge_sharpness": 1.0,
+        "uncertain_ratio": 0.00046,
+        "boundary_complexity": 0.1879,
+        "component_penalty": 0.0,
+        "border_contact": 0.0,
+        "ensemble_iou": 0.9887,
+        "holes": 0,
+        "solidity": 0.888
+      },
+      "print_area": {
+        "kind": "quad",
+        "quad": [
+          [
+            464.9729919433594,
+            300.110107421875
+          ],
+          [
+            1156.436279296875,
+            420.1558532714844
+          ],
+          [
+            1101.965576171875,
+            733.9070434570312
+          ],
+          [
+            410.5023193359375,
+            613.861328125
+          ]
+        ],
+        "bbox": [
+          410.5023193359375,
+          300.110107421875,
+          745.9339599609375,
+          433.79693603515625
+        ],
+        "area_px": 223985,
+        "coverage_of_product": 1.4233,
+        "perspective_matrix": [
+          [
+            691.4633775883556,
+            -54.4706519667325,
+            464.9729919433594
+          ],
+          [
+            120.0457786336865,
+            313.7512515690188,
+            300.110107421875
+          ],
+          [
+            7.802837178368739e-08,
+            5.0281541435549744e-08,
+            1.0
+          ]
+        ],
+        "confidence": 0.3574
+      },
+      "artifacts": {
+        "alpha_mask": "/artifacts/deliv_3bedec0d51ab/017_17_cap_mask.png",
+        "cutout_rgba": "/artifacts/deliv_3bedec0d51ab/017_17_cap_cutout.png",
+        "overlay": "/artifacts/deliv_3bedec0d51ab/017_17_cap_overlay.jpg",
+        "shadow_map": "/artifacts/deliv_3bedec0d51ab/017_17_cap_shadow.png",
+        "highlight_map": "/artifacts/deliv_3bedec0d51ab/017_17_cap_highlight.png",
+        "displacement_map": "/artifacts/deliv_3bedec0d51ab/017_17_cap_displacement.png",
+        "print_area_preview": null,
+        "trimap": "/artifacts/deliv_3bedec0d51ab/017_17_cap_trimap.png"
+      },
+      "error": null
+    },
+    {
+      "id": "018_18_mousepad_on_desk",
+      "source": "18_mousepad_on_desk.png",
+      "status": "ok",
+      "verdict": "REVIEW",
+      "confidence": 0.9273,
+      "reasons": [
+        "Cross-check model disagrees (IoU 0.77, agreement score 0.68) - ambiguous product boundary."
+      ],
+      "category": "accessory",
+      "category_source": "metadata",
+      "width": 1600,
+      "height": 900,
+      "model_used": "birefnet",
+      "models_tried": [
+        "birefnet",
+        "u2net"
+      ],
+      "timings_ms": {
+        "load": 30.34,
+        "segment": 1045.23,
+        "cross_check": 469.11,
+        "classify": 0.08,
+        "refine": 122.63,
+        "qc": 316.27,
+        "print_area": 10.76,
+        "artifacts": 2314.11,
+        "total": 4309.72
+      },
+      "metrics": {
+        "coverage": 0.53523,
+        "edge_sharpness": 1.0,
+        "uncertain_ratio": 0.0031,
+        "boundary_complexity": 0.0975,
+        "component_penalty": 0.0,
+        "border_contact": 0.0,
+        "ensemble_iou": 0.7668,
+        "holes": 0,
+        "solidity": 0.8671
+      },
+      "print_area": {
+        "kind": "quad",
+        "quad": [
+          [
+            51.22502517700195,
+            349.2541809082031
+          ],
+          [
+            1399.00830078125,
+            246.3208465576172
+          ],
+          [
+            1418.3082275390625,
+            687.004150390625
+          ],
+          [
+            44.791664123535156,
+            767.4208374023438
+          ]
+        ],
+        "bbox": [
+          44.791664123535156,
+          246.3208465576172,
+          1373.5166015625,
+          521.0999755859375
+        ],
+        "area_px": 586890,
+        "coverage_of_product": 0.7615,
+        "perspective_matrix": [
+          [
+            1271.7132008190595,
+            -7.238325157390154,
+            51.22502517700195
+          ],
+          [
+            -116.32685403758508,
+            404.3751120449782,
+            349.2541809082031
+          ],
+          [
+            -0.05437428408588326,
+            -0.017971292642829016,
+            1.0
+          ]
+        ],
+        "confidence": 0.801
+      },
+      "artifacts": {
+        "alpha_mask": "/artifacts/deliv_3bedec0d51ab/018_18_mousepad_on_desk_mask.png",
+        "cutout_rgba": "/artifacts/deliv_3bedec0d51ab/018_18_mousepad_on_desk_cutout.png",
+        "overlay": "/artifacts/deliv_3bedec0d51ab/018_18_mousepad_on_desk_overlay.jpg",
+        "shadow_map": "/artifacts/deliv_3bedec0d51ab/018_18_mousepad_on_desk_shadow.png",
+        "highlight_map": "/artifacts/deliv_3bedec0d51ab/018_18_mousepad_on_desk_highlight.png",
+        "displacement_map": "/artifacts/deliv_3bedec0d51ab/018_18_mousepad_on_desk_displacement.png",
+        "print_area_preview": null,
+        "trimap": "/artifacts/deliv_3bedec0d51ab/018_18_mousepad_on_desk_trimap.png"
+      },
+      "error": null
+    },
+    {
+      "id": "019_19_cushion",
+      "source": "19_cushion.png",
+      "status": "ok",
+      "verdict": "READY",
+      "confidence": 0.9824,
+      "reasons": [
+        "Clean single-piece mask, edges align with the source image, models agree."
+      ],
+      "category": "accessory",
+      "category_source": "metadata",
+      "width": 1300,
+      "height": 1200,
+      "model_used": "birefnet",
+      "models_tried": [
+        "birefnet",
+        "u2net"
+      ],
+      "timings_ms": {
+        "load": 28.44,
+        "segment": 1016.19,
+        "cross_check": 565.69,
+        "classify": 0.05,
+        "refine": 142.75,
+        "qc": 340.57,
+        "print_area": 10.77,
+        "artifacts": 1809.09,
+        "total": 3915.18
+      },
+      "metrics": {
+        "coverage": 0.40892,
+        "edge_sharpness": 1.0,
+        "uncertain_ratio": 0.00246,
+        "boundary_complexity": 0.0,
+        "component_penalty": 0.0,
+        "border_contact": 0.0,
+        "ensemble_iou": 0.9905,
+        "holes": 0,
+        "solidity": 0.9971
+      },
+      "print_area": {
+        "kind": "quad",
+        "quad": [
+          [
+            273.7210998535156,
+            275.9080505371094
+          ],
+          [
+            1023.8074951171875,
+            273.2945251464844
+          ],
+          [
+            1029.0345458984375,
+            999.8590698242188
+          ],
+          [
+            281.5617370605469,
+            1010.3132934570312
+          ]
+        ],
+        "bbox": [
+          273.7210998535156,
+          273.2945251464844,
+          755.3134765625,
+          737.018798828125
+        ],
+        "area_px": 548676,
+        "coverage_of_product": 0.8601,
+        "perspective_matrix": [
+          [
+            761.185172950527,
+            8.803791021286216,
+            273.7210998535156
+          ],
+          [
+            0.34917530467345914,
+            737.8612775087993,
+            275.9080505371094
+          ],
+          [
+            0.010840688058827624,
+            0.0034207553352601,
+            1.0
+          ]
+        ],
+        "confidence": 0.9269
+      },
+      "artifacts": {
+        "alpha_mask": "/artifacts/deliv_3bedec0d51ab/019_19_cushion_mask.png",
+        "cutout_rgba": "/artifacts/deliv_3bedec0d51ab/019_19_cushion_cutout.png",
+        "overlay": "/artifacts/deliv_3bedec0d51ab/019_19_cushion_overlay.jpg",
+        "shadow_map": "/artifacts/deliv_3bedec0d51ab/019_19_cushion_shadow.png",
+        "highlight_map": "/artifacts/deliv_3bedec0d51ab/019_19_cushion_highlight.png",
+        "displacement_map": "/artifacts/deliv_3bedec0d51ab/019_19_cushion_displacement.png",
+        "print_area_preview": null,
+        "trimap": "/artifacts/deliv_3bedec0d51ab/019_19_cushion_trimap.png"
+      },
+      "error": null
+    }
+  ]
+}

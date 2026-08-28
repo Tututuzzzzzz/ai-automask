@@ -1,0 +1,218 @@
+{
+  "environment": {
+    "device": "cuda",
+    "fp16": true,
+    "infer_size": 1024,
+    "torch": "2.5.1+cu121",
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "vram_gb": 4.3,
+    "cpu_count": 12
+  },
+  "images": 19,
+  "repeat": 1,
+  "configurations": {
+    "mask only": {
+      "n": 19,
+      "mean_ms": 2187.0,
+      "p50_ms": 2097.7,
+      "p95_ms": 2651.1,
+      "min_ms": 1784.2,
+      "max_ms": 2715.7,
+      "mean_megapixels": 1.64,
+      "ms_per_megapixel": 1331.4,
+      "stages_mean_ms": {
+        "load": 29.5,
+        "segment": 999.5,
+        "cross_check": 411.6,
+        "classify": 27.0,
+        "refine": 275.1,
+        "qc": 347.4,
+        "print_area": 71.5,
+        "artifacts": 24.4
+      },
+      "stages_pct": {
+        "load": 1.3,
+        "segment": 45.7,
+        "cross_check": 18.8,
+        "classify": 1.2,
+        "refine": 12.6,
+        "qc": 15.9,
+        "print_area": 3.3,
+        "artifacts": 1.1
+      }
+    },
+    "mask + all extra layers": {
+      "n": 19,
+      "mean_ms": 4088.5,
+      "p50_ms": 3920.4,
+      "p95_ms": 5317.2,
+      "min_ms": 3070.8,
+      "max_ms": 5450.0,
+      "mean_megapixels": 1.64,
+      "ms_per_megapixel": 2489.0,
+      "stages_mean_ms": {
+        "load": 27.2,
+        "segment": 1191.8,
+        "cross_check": 427.6,
+        "classify": 26.4,
+        "refine": 276.4,
+        "qc": 346.7,
+        "print_area": 69.1,
+        "artifacts": 1721.5
+      },
+      "stages_pct": {
+        "load": 0.7,
+        "segment": 29.2,
+        "cross_check": 10.5,
+        "classify": 0.6,
+        "refine": 6.8,
+        "qc": 8.5,
+        "print_area": 1.7,
+        "artifacts": 42.1
+      }
+    },
+    "no cross-check model": {
+      "n": 19,
+      "mean_ms": 1737.7,
+      "p50_ms": 1612.8,
+      "p95_ms": 2271.3,
+      "min_ms": 1388.6,
+      "max_ms": 2289.2,
+      "mean_megapixels": 1.64,
+      "ms_per_megapixel": 1057.9,
+      "stages_mean_ms": {
+        "load": 26.9,
+        "segment": 1005.7,
+        "cross_check": 0.0,
+        "classify": 23.4,
+        "refine": 274.3,
+        "qc": 310.3,
+        "print_area": 71.1,
+        "artifacts": 23.7
+      },
+      "stages_pct": {
+        "load": 1.6,
+        "segment": 58.0,
+        "cross_check": 0.0,
+        "classify": 1.3,
+        "refine": 15.8,
+        "qc": 17.9,
+        "print_area": 4.1,
+        "artifacts": 1.4
+      }
+    },
+    "no guided-filter refinement": {
+      "n": 19,
+      "mean_ms": 2159.4,
+      "p50_ms": 2038.9,
+      "p95_ms": 2624.3,
+      "min_ms": 1842.6,
+      "max_ms": 2749.6,
+      "mean_megapixels": 1.64,
+      "ms_per_megapixel": 1314.6,
+      "stages_mean_ms": {
+        "load": 26.8,
+        "segment": 1002.3,
+        "cross_check": 444.1,
+        "classify": 26.9,
+        "refine": 206.9,
+        "qc": 357.2,
+        "print_area": 69.3,
+        "artifacts": 24.5
+      },
+      "stages_pct": {
+        "load": 1.2,
+        "segment": 46.4,
+        "cross_check": 20.6,
+        "classify": 1.2,
+        "refine": 9.6,
+        "qc": 16.6,
+        "print_area": 3.2,
+        "artifacts": 1.1
+      }
+    },
+    "infer_size=768": {
+      "n": 19,
+      "mean_ms": 2091.9,
+      "p50_ms": 1995.2,
+      "p95_ms": 2705.7,
+      "min_ms": 1594.0,
+      "max_ms": 3166.2,
+      "mean_megapixels": 1.64,
+      "ms_per_megapixel": 1273.5,
+      "stages_mean_ms": {
+        "load": 31.6,
+        "segment": 623.2,
+        "cross_check": 505.5,
+        "classify": 31.8,
+        "refine": 343.0,
+        "qc": 441.6,
+        "print_area": 84.8,
+        "artifacts": 28.6
+      },
+      "stages_pct": {
+        "load": 1.5,
+        "segment": 29.8,
+        "cross_check": 24.2,
+        "classify": 1.5,
+        "refine": 16.4,
+        "qc": 21.1,
+        "print_area": 4.1,
+        "artifacts": 1.4
+      }
+    },
+    "infer_size=1280": {
+      "n": 19,
+      "mean_ms": 5284.7,
+      "p50_ms": 5172.6,
+      "p95_ms": 5847.4,
+      "min_ms": 4878.8,
+      "max_ms": 6036.7,
+      "mean_megapixels": 1.64,
+      "ms_per_megapixel": 3217.2,
+      "stages_mean_ms": {
+        "load": 29.3,
+        "segment": 4032.8,
+        "cross_check": 461.7,
+        "classify": 27.7,
+        "refine": 281.3,
+        "qc": 349.6,
+        "print_area": 75.2,
+        "artifacts": 22.9
+      },
+      "stages_pct": {
+        "load": 0.6,
+        "segment": 76.4,
+        "cross_check": 8.7,
+        "classify": 0.5,
+        "refine": 5.3,
+        "qc": 6.6,
+        "print_area": 1.4,
+        "artifacts": 0.4
+      }
+    }
+  },
+  "batch": [
+    {
+      "workers": 1,
+      "images": 19,
+      "wall_s": 42.87,
+      "img_per_min": 26.59,
+      "mean_latency_ms": 2254.37
+    },
+    {
+      "workers": 2,
+      "images": 19,
+      "wall_s": 26.14,
+      "img_per_min": 43.62,
+      "mean_latency_ms": 2719.82
+    },
+    {
+      "workers": 4,
+      "images": 19,
+      "wall_s": 23.0,
+      "img_per_min": 49.56,
+      "mean_latency_ms": 4539.63
+    }
+  ]
+}

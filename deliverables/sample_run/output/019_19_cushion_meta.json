@@ -1,0 +1,166 @@
+{
+  "id": "019_19_cushion",
+  "sku": null,
+  "source": "19_cushion.png",
+  "resolution": {
+    "width": 1300,
+    "height": 1200
+  },
+  "verdict": "READY",
+  "confidence": 0.9824,
+  "category": {
+    "value": "accessory",
+    "source": "metadata",
+    "confidence": 1.0,
+    "detail": {
+      "note": "supplied by caller"
+    }
+  },
+  "metrics": {
+    "coverage": 0.40892,
+    "edge_sharpness": 1.0,
+    "uncertain_ratio": 0.00246,
+    "boundary_complexity": 0.0,
+    "component_penalty": 0.0,
+    "border_contact": 0.0,
+    "ensemble_iou": 0.9905,
+    "holes": 0,
+    "solidity": 0.9971
+  },
+  "qc_detail": {
+    "cross_check": {
+      "iou": 0.9905,
+      "boundary_f1": 0.73
+    },
+    "edge_alignment": {
+      "aligned_ratio": 0.9945,
+      "tolerance_px": 2,
+      "median_gradient": 2.835,
+      "threshold": 7.086
+    },
+    "topology": {
+      "components": 1,
+      "solidity": 0.9971,
+      "component_penalty": 0.0,
+      "hole_penalty": 0.0
+    },
+    "background": {
+      "outside_is_background": 0.9995,
+      "ring_px": 32817,
+      "ring_radius_px": 10
+    },
+    "shape": {
+      "bbox_fill": 0.9896,
+      "aspect": 1.033
+    },
+    "boundary_contrast": {
+      "flat_boundary_fraction": 0.0,
+      "median_step_over_noise": 1.856,
+      "sample_px": 6733
+    },
+    "terms": {
+      "edge_alignment": 0.9945,
+      "sharpness": 1.0,
+      "topology": 1.0,
+      "coverage": 1.0,
+      "border": 1.0,
+      "bg_consistency": 1.0,
+      "shape_prior": 1.0,
+      "boundary_contrast": 1.0,
+      "ensemble": 0.9176
+    },
+    "weights": {
+      "edge_alignment": 0.2,
+      "sharpness": 0.12,
+      "topology": 0.1,
+      "coverage": 0.07,
+      "border": 0.05,
+      "bg_consistency": 0.1,
+      "shape_prior": 0.02,
+      "boundary_contrast": 0.14,
+      "ensemble": 0.2
+    },
+    "lighting": {
+      "albedo_sigma_px": 104.0,
+      "shadow_mean": 0.2097,
+      "highlight_mean": 0.1877
+    },
+    "displacement": {
+      "residual_p98": 0.03704,
+      "detail_sigma_px": 39.0,
+      "amplitude": 0.3536
+    }
+  },
+  "refine": {
+    "category": "accessory",
+    "shadow_suppressed": false,
+    "holes_kept": 0,
+    "guided": true,
+    "unknown_band_px": 38029,
+    "guided_radius": 9
+  },
+  "print_area": {
+    "kind": "quad",
+    "quad": [
+      [
+        273.7210998535156,
+        275.9080505371094
+      ],
+      [
+        1023.8074951171875,
+        273.2945251464844
+      ],
+      [
+        1029.0345458984375,
+        999.8590698242188
+      ],
+      [
+        281.5617370605469,
+        1010.3132934570312
+      ]
+    ],
+    "bbox": [
+      273.7210998535156,
+      273.2945251464844,
+      755.3134765625,
+      737.018798828125
+    ],
+    "area_px": 548676,
+    "coverage_of_product": 0.8601,
+    "perspective_matrix": [
+      [
+        761.185172950527,
+        8.803791021286216,
+        273.7210998535156
+      ],
+      [
+        0.34917530467345914,
+        737.8612775087993,
+        275.9080505371094
+      ],
+      [
+        0.010840688058827624,
+        0.0034207553352601,
+        1.0
+      ]
+    ],
+    "confidence": 0.9269
+  },
+  "model": {
+    "primary": "birefnet",
+    "tried": [
+      "birefnet",
+      "u2net"
+    ]
+  },
+  "artifacts": {
+    "alpha_mask": "/artifacts/deliv_3bedec0d51ab/019_19_cushion_mask.png",
+    "cutout_rgba": "/artifacts/deliv_3bedec0d51ab/019_19_cushion_cutout.png",
+    "overlay": "/artifacts/deliv_3bedec0d51ab/019_19_cushion_overlay.jpg",
+    "shadow_map": "/artifacts/deliv_3bedec0d51ab/019_19_cushion_shadow.png",
+    "highlight_map": "/artifacts/deliv_3bedec0d51ab/019_19_cushion_highlight.png",
+    "displacement_map": "/artifacts/deliv_3bedec0d51ab/019_19_cushion_displacement.png",
+    "print_area_preview": null,
+    "trimap": "/artifacts/deliv_3bedec0d51ab/019_19_cushion_trimap.png"
+  }
+}

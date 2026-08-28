@@ -1,0 +1,15 @@
+# Curated real-photo test set, resolved from Wikimedia Commons by
+#   python scripts/fetch_dataset.py --curated
+# Only `title` and `category` are read; licence, author and source page are
+# fetched live and written into the manifest the script produces, so attribution
+# always matches what Commons currently reports.
+#
+# These are genuine photographs rather than renders, so they carry no ground
+# truth - they are for qualitative checks (does the mask look right on a real
+# camera image) alongside the quantitative set in data/samples.
+title,category
+04-QWSTION-FLAP-TOTE-SMALL-SAND-FRONT.jpg,apparel
+AirTouch thermal tote bag.jpg,apparel
+A cotton bag with runes - Baumwolltasche mit Runen.jpg,apparel
+Celtics cap.png,accessory
+5tashabbus kepka.jpg,accessory
