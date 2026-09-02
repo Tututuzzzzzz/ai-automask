@@ -1,0 +1,53 @@
+{
+  "source": "D:\\TTTN\\mockupgenerator\\src\\main\\resources\\mask",
+  "collected": {
+    "files_scanned": 372,
+    "not_product_photos": 24,
+    "not_product_examples": [
+      "UKTMM11/1-Model-Mask.jpg",
+      "UKTMM11/2-Model-Mask.jpg",
+      "US3DAM11/1-Mask-Model.jpg",
+      "US3DAM11/2-Model-Mask-Left.jpg",
+      "US3DAM11/2-Model-Mask-Right.jpg",
+      "US3DAM11UL/1-Mask-Model.jpg",
+      "US3DAM11UL/2-Model-Mask-Left.jpg",
+      "US3DAM11UL/2-Model-Mask-Right.jpg"
+    ],
+    "unique_images": 121,
+    "duplicate_files_removed": 227
+  },
+  "processed": 121,
+  "category_forced": "drinkware",
+  "verdicts": {
+    "READY": 96,
+    "REVIEW": 25
+  },
+  "auto_accept_rate": 0.7934,
+  "groups": 32,
+  "base_codes": 16,
+  "colors": [
+    "black",
+    "black-white",
+    "blue",
+    "bordeaux",
+    "gold",
+    "green",
+    "light-blue",
+    "light-green",
+    "light-yellow",
+    "maroon",
+    "navy",
+    "orange",
+    "pink",
+    "red",
+    "white",
+    "yellow"
+  ],
+  "wall_s": 235.5,
+  "sec_per_image": 1.95,
+  "model": {
+    "primary": "birefnet",
+    "cross_check": "u2net",
+    "device": "cuda"
+  }
+}

@@ -54,6 +54,23 @@ def _binary(alpha: np.ndarray, t: float = 0.5) -> np.ndarray:
     return (alpha > t).astype(np.uint8)
 
 
+def largest_component(binary: np.ndarray) -> np.ndarray:
+    """The biggest connected piece of a mask.
+
+    Silhouette statistics - bounding-box fill, aspect, quad fit, outline
+    complexity - describe *a product*. Measured across a multi-item photo they
+    describe the photo's layout instead: two mugs side by side leave a diagonal
+    gap that drags bbox fill from 0.75 down to 0.43, and every mug in the real
+    base library then looks "atypical for drinkware". Measuring one instance
+    keeps the prior meaning what it was calibrated to mean.
+    """
+    n, labels, stats, _ = cv2.connectedComponentsWithStats(binary, connectivity=8)
+    if n <= 2:
+        return binary
+    idx = int(np.argmax(stats[1:, cv2.CC_STAT_AREA])) + 1
+    return (labels == idx).astype(np.uint8)
+
+
 def iou(a: np.ndarray, b: np.ndarray) -> float:
     a_b, b_b = a.astype(bool), b.astype(bool)
     union = np.logical_or(a_b, b_b).sum()
@@ -282,7 +299,9 @@ def shape_prior(alpha: np.ndarray, cfg: dict) -> tuple[float, dict]:
     spec = cfg.get("shape") or {}
     if not spec:
         return 1.0, {}
-    binary = _binary(alpha)
+    full = _binary(alpha)
+    binary = largest_component(full)
+    multi = int(binary.sum()) < int(full.sum())
     ys, xs = np.nonzero(binary)
     if len(ys) < 64:
         return 0.0, {"note": "empty mask"}
@@ -290,7 +309,20 @@ def shape_prior(alpha: np.ndarray, cfg: dict) -> tuple[float, dict]:
     bh, bw = (y1 - y0 + 1), (x1 - x0 + 1)
     fill = float(binary[y0:y1 + 1, x0:x1 + 1].mean())
     aspect = bw / float(bh)
-    detail = {"bbox_fill": round(fill, 4), "aspect": round(aspect, 3)}
+
+    # Solidity of the same instance, used to decide whether the bbox-fill test
+    # applies at all.
+    contours, _ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    solidity = 0.0
+    if contours:
+        c = max(contours, key=cv2.contourArea)
+        hull_area = cv2.contourArea(cv2.convexHull(c)) if len(c) >= 3 else 0.0
+        if hull_area > 0:
+            solidity = float(cv2.contourArea(c) / hull_area)
+
+    detail = {"bbox_fill": round(fill, 4), "aspect": round(aspect, 3),
+              "solidity": round(solidity, 4),
+              "measured_on": "largest_instance" if multi else "whole_mask"}
 
     def band_score(value: float, bounds, softness: float) -> float:
         lo, hi = bounds
@@ -299,7 +331,18 @@ def shape_prior(alpha: np.ndarray, cfg: dict) -> tuple[float, dict]:
         gap = (lo - value) if value < lo else (value - hi)
         return float(np.clip(1.0 - gap / softness, 0.0, 1.0))
 
-    score = band_score(fill, spec["bbox_fill"], 0.30)
+    # Bounding-box fill only means something for a *single* compact product.
+    # Two mugs photographed side by side and overlapping fuse into one connected
+    # piece whose bbox fill collapses to ~0.50 - numerically identical to the
+    # failure case where a mask swallowed adjacent desk clutter (0.496). The two
+    # are separated by solidity, not by fill: the fused mug pair measures 0.98,
+    # the mug-plus-clutter blob 0.81. So a highly solid silhouette is exempted
+    # from the fill test and judged on aspect and quad fit alone.
+    if solidity >= 0.93:
+        score = 1.0
+        detail["fill_test"] = "skipped (solid silhouette)"
+    else:
+        score = band_score(fill, spec["bbox_fill"], 0.30)
     score = min(score, band_score(aspect, spec["aspect"], 1.20))
 
     quad_min = spec.get("quad_fit_min")
@@ -324,16 +367,48 @@ def topology_signals(alpha: np.ndarray, holes: int, cfg: dict) -> tuple[float, d
 
     biggest = areas[0]
     significant = [a for a in areas if a >= biggest * 0.05]
-    extra = max(0, len(significant) - 1)
-    component_penalty = float(np.clip(extra / 4.0, 0.0, 1.0))
 
     contours, _ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    main = max(contours, key=cv2.contourArea) if contours else None
-    solidity = 0.0
-    if main is not None and len(main) >= 5:
-        hull_area = cv2.contourArea(cv2.convexHull(main))
-        if hull_area > 0:
-            solidity = float(cv2.contourArea(main) / hull_area)
+    contours = sorted(contours, key=cv2.contourArea, reverse=True)
+
+    def _solidity(contour) -> float:
+        # >= 3 points, not >= 5. A perfect axis-aligned rectangle traces to
+        # exactly 4 points under CHAIN_APPROX_SIMPLE, and the old guard scored
+        # every such shape 0.0 - i.e. the flattest, most solid product possible
+        # was reported as maximally ragged.
+        if contour is None or len(contour) < 3:
+            return 0.0
+        hull_area = cv2.contourArea(cv2.convexHull(contour))
+        return float(cv2.contourArea(contour) / hull_area) if hull_area > 0 else 0.0
+
+    main = contours[0] if contours else None
+    solidity = _solidity(main)
+
+    # A mask with several pieces is not automatically broken. Product catalogues
+    # are full of legitimate multi-item compositions - the "back" shot of a mug
+    # base photographs two mugs side by side, a set is photographed as a set. So
+    # separate the two cases instead of punishing piece count alone:
+    #
+    #   fragmented     -> many pieces, or pieces of wildly different size, or
+    #                     pieces that are individually ragged
+    #   multi-instance -> a few pieces, comparable in size, each individually a
+    #                     solid compact shape
+    #
+    # Only the first is a defect. Getting this wrong sent every two-mug photo in
+    # the real base library to manual review for no reason.
+    size_ratio = float(min(significant) / max(significant)) if len(significant) > 1 else 1.0
+    piece_solidity = [_solidity(c) for c in contours[: len(significant)]]
+    worst_piece_solidity = float(min(piece_solidity)) if piece_solidity else 0.0
+    multi_instance = (
+        1 < len(significant) <= 4
+        and size_ratio >= 0.25
+        and worst_piece_solidity >= 0.50
+    )
+    if multi_instance:
+        component_penalty = 0.0
+    else:
+        extra = max(0, len(significant) - 1)
+        component_penalty = float(np.clip(extra / 4.0, 0.0, 1.0))
 
     hole_penalty = 0.0
     if holes > 12:                       # shredded matte
@@ -351,6 +426,9 @@ def topology_signals(alpha: np.ndarray, holes: int, cfg: dict) -> tuple[float, d
         "solidity": round(solidity, 4),
         "component_penalty": round(component_penalty, 4),
         "hole_penalty": round(hole_penalty, 4),
+        "multi_instance": multi_instance,
+        "size_ratio": round(size_ratio, 4),
+        "worst_piece_solidity": round(worst_piece_solidity, 4),
     }
 
 
@@ -380,7 +458,9 @@ def border_signal(alpha: np.ndarray) -> tuple[float, float]:
 def boundary_complexity(alpha: np.ndarray) -> float:
     """Normalised perimeter. Hair and knit fringe raise it; it is not a defect
     by itself, but it tells the operator why confidence is lower."""
-    b = _binary(alpha)
+    # Per instance, for the same reason as the shape prior: two mugs have twice
+    # the perimeter of one, which is a fact about the photo, not about the cut.
+    b = largest_component(_binary(alpha))
     area = float(b.sum())
     if area < 32:
         return 0.0
@@ -487,6 +567,11 @@ def assess(
         )
     if topo_detail.get("component_penalty", 0) > 0.2:
         reasons.append(f"Mask is split into {topo_detail.get('components')} separate pieces.")
+    elif topo_detail.get("multi_instance"):
+        reasons.append(
+            f"Photo contains {topo_detail.get('components')} products of comparable size - "
+            f"read as a multi-item composition, not a fragmented mask."
+        )
     if topo_detail.get("hole_penalty", 0) > 0.2:
         reasons.append(f"{refine_info.get('holes_kept', 0)} interior holes - unexpected for this product type.")
     if s_contrast < 0.5:

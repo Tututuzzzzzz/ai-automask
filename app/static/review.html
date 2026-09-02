@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Duyệt nhãn phân vùng · Cốc sứ</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>&#9998;</text></svg>">
+<link rel="stylesheet" href="/ui/review.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">
+    <b>Duyệt nhãn phân vùng</b>
+    <span id="dsname">—</span>
+  </div>
+  <div class="counters" id="counters"></div>
+  <div class="spacer"></div>
+  <div class="saved" id="saved">đã lưu</div>
+</header>
+
+<main>
+  <!-- ------------------------------------------------------- danh sách ảnh -->
+  <aside class="list">
+    <div class="filters" id="filters">
+      <button class="chip active" data-f="all">Tất cả</button>
+      <button class="chip" data-f="todo">Chưa duyệt</button>
+      <button class="chip" data-f="accept">Nhận</button>
+      <button class="chip" data-f="fix">Đã sửa</button>
+      <button class="chip" data-f="reject">Loại</button>
+    </div>
+    <ol id="items"></ol>
+  </aside>
+
+  <!-- ------------------------------------------------------------ canvas -->
+  <section class="stage">
+    <div class="stagebar">
+      <div class="meta" id="meta">—</div>
+      <div class="spacer"></div>
+      <div class="modes" id="modes">
+        <button class="chip active" data-mode="overlay">Chồng lớp</button>
+        <button class="chip" data-mode="mask">Chỉ mask</button>
+        <button class="chip" data-mode="image">Chỉ ảnh</button>
+      </div>
+      <label class="opacity">Độ mờ
+        <input type="range" id="opacity" min="0" max="100" value="55">
+      </label>
+    </div>
+
+    <div class="canvaswrap" id="canvaswrap">
+      <canvas id="canvas"></canvas>
+      <div class="hint" id="hint">Chọn một ảnh ở danh sách bên trái</div>
+    </div>
+
+    <div class="tools">
+      <div class="group">
+        <button class="tool active" id="tool-pan" data-tool="pan" title="Kéo ảnh (space)">✥ Di chuyển</button>
+        <button class="tool" id="tool-add" data-tool="add" title="Vẽ thêm vào mask (B)">✎ Thêm</button>
+        <button class="tool" id="tool-erase" data-tool="erase" title="Xoá khỏi mask (E)">◻ Xoá</button>
+      </div>
+      <label class="brushsize">Cỡ cọ <input type="range" id="brush" min="4" max="160" value="34">
+        <span id="brushval">34</span></label>
+      <div class="group">
+        <button class="tool" id="undo" title="Hoàn tác (Ctrl+Z)">↶ Hoàn tác</button>
+        <button class="tool" id="reset" title="Về nhãn máy">⟲ Về nhãn máy</button>
+      </div>
+      <div class="spacer"></div>
+      <div class="group verdicts">
+        <button class="verdict accept" id="btn-accept" title="A">✓ Nhận (A)</button>
+        <button class="verdict fix" id="btn-fix" title="S">✎ Lưu bản sửa (S)</button>
+        <button class="verdict reject" id="btn-reject" title="R">✕ Loại (R)</button>
+      </div>
+    </div>
+    <p class="keys">Phím tắt: <b>A</b> nhận · <b>S</b> lưu bản sửa · <b>R</b> loại ·
+      <b>B</b>/<b>E</b> cọ thêm/xoá · <b>[</b> <b>]</b> cỡ cọ ·
+      <b>←</b> <b>→</b> ảnh trước/sau · <b>Ctrl+Z</b> hoàn tác · giữ <b>Space</b> để kéo ảnh</p>
+  </section>
+</main>
+
+<script src="/ui/review.js"></script>
+</body>
+</html>

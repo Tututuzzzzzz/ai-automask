@@ -1,0 +1,157 @@
+{
+  "dataset": "D:\\TTTN\\ai-automask\\data\\mugs",
+  "policy": "group split by (base_code, side); mọi màu của cùng base+mặt nằm cùng một tập",
+  "ratios_requested": [
+    0.7,
+    0.15,
+    0.15
+  ],
+  "seed": 42,
+  "total_images": 121,
+  "rejected": 0,
+  "usable": 121,
+  "splits": {
+    "train": {
+      "images": 84,
+      "share": 0.6942,
+      "groups": [
+        "EUACCMH_back",
+        "EUACCM_back",
+        "EUACM15_back",
+        "EUACM15_front",
+        "EUMM_back",
+        "EUMM_front",
+        "UKTMM11_back",
+        "UKTMM11_front",
+        "US3DAM11_back",
+        "US3DAM11_front",
+        "US3DAM15_back",
+        "US3DAM15_front",
+        "US3DCM11_front",
+        "US3DCM15_back",
+        "USAAM11FB_back",
+        "USAAM11FB_front",
+        "USAAM15FB_back",
+        "USAAM15_back",
+        "USACM11FB_front",
+        "USACM11_back",
+        "USACM11_front",
+        "USGAMM15_front"
+      ],
+      "base_codes": [
+        "EUACCM",
+        "EUACCMH",
+        "EUACM15",
+        "EUMM",
+        "UKTMM11",
+        "US3DAM11",
+        "US3DAM15",
+        "US3DCM11",
+        "US3DCM15",
+        "USAAM11FB",
+        "USAAM15",
+        "USAAM15FB",
+        "USACM11",
+        "USACM11FB",
+        "USGAMM15"
+      ],
+      "colors": [
+        "black",
+        "black-white",
+        "blue",
+        "bordeaux",
+        "gold",
+        "green",
+        "light-blue",
+        "light-green",
+        "light-yellow",
+        "maroon",
+        "navy",
+        "orange",
+        "pink",
+        "red",
+        "white",
+        "yellow"
+      ],
+      "sides": {
+        "back": 55,
+        "front": 29
+      }
+    },
+    "val": {
+      "images": 19,
+      "share": 0.157,
+      "groups": [
+        "EUACCMH_front",
+        "EUACCM_front",
+        "US3DCM15_front",
+        "USACM11FB_back",
+        "USACM15FB_front"
+      ],
+      "base_codes": [
+        "EUACCM",
+        "EUACCMH",
+        "US3DCM15",
+        "USACM11FB",
+        "USACM15FB"
+      ],
+      "colors": [
+        "black",
+        "blue",
+        "bordeaux",
+        "gold",
+        "green",
+        "light-yellow",
+        "maroon",
+        "navy",
+        "orange",
+        "pink",
+        "red",
+        "white",
+        "yellow"
+      ],
+      "sides": {
+        "front": 17,
+        "back": 2
+      }
+    },
+    "test": {
+      "images": 18,
+      "share": 0.1488,
+      "groups": [
+        "US3DCM11_back",
+        "USAAM15FB_front",
+        "USAAM15_front",
+        "USACM15FB_back",
+        "USGAMM15_back"
+      ],
+      "base_codes": [
+        "US3DCM11",
+        "USAAM15",
+        "USAAM15FB",
+        "USACM15FB",
+        "USGAMM15"
+      ],
+      "colors": [
+        "black",
+        "black-white",
+        "bordeaux",
+        "green",
+        "light-blue",
+        "light-yellow",
+        "maroon",
+        "navy",
+        "orange",
+        "pink",
+        "red",
+        "white",
+        "yellow"
+      ],
+      "sides": {
+        "back": 4,
+        "front": 14
+      }
+    }
+  },
+  "group_leakage": []
+}

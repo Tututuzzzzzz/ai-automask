@@ -244,17 +244,51 @@ def test_full_frame_mask_fails():
 
 
 def test_fragmented_mask_never_reads_ready():
-    """Two distant blobs cannot be one product base, whatever the score says."""
-    img = np.full((400, 400, 3), 235, np.uint8)
-    alpha = np.zeros((400, 400), np.float32)
-    cv2.rectangle(img, (30, 30), (150, 150), (40, 40, 40), -1)
-    cv2.rectangle(img, (250, 250), (370, 370), (40, 40, 40), -1)
-    alpha[30:150, 30:150] = 1.0
-    alpha[250:370, 250:370] = 1.0
+    """A main blob plus a scatter of ragged shards is a broken mask.
+
+    Note the shards are deliberately unequal and irregular. Piece *count* alone
+    is not the defect - see the multi-instance test below - so the fixture has
+    to exhibit real fragmentation for this assertion to mean anything.
+    """
+    # Pieces must be large enough to count as significant (>= 5% of the main
+    # blob) but clearly unequal, which is what separates a torn mask from a
+    # photo of several products.
+    img = np.full((520, 520, 3), 235, np.uint8)
+    alpha = np.zeros((520, 520), np.float32)
+    for (x, y, w, h) in ((40, 40, 260, 260), (330, 90, 170, 100), (150, 400, 90, 60)):
+        cv2.rectangle(img, (x, y), (x + w, y + h), (40, 40, 40), -1)
+        alpha[y:y + h, x:x + w] = 1.0
     verdict, _c, _m, reasons, detail = quality.assess(img, alpha, category="auto")
     assert verdict != "READY"
     assert any("separate pieces" in r for r in reasons)
     assert "split into" in detail.get("ready_veto", [])
+
+
+def test_multi_instance_photo_is_not_treated_as_fragmented():
+    """Two whole products of comparable size is a composition, not a defect.
+
+    The real base library photographs the back of every mug base as *two* mugs
+    side by side. Treating piece count as fragmentation sent every one of those
+    to manual review, which is what this test exists to prevent regressing.
+    """
+    img = np.full((400, 700, 3), 240, np.uint8)
+    alpha = np.zeros((400, 700), np.float32)
+    for x0 in (60, 380):
+        cv2.rectangle(img, (x0, 90), (x0 + 260, 320), (55, 55, 60), -1)
+        alpha[90:320, x0:x0 + 260] = 1.0
+    _v, _c, _m, reasons, detail = quality.assess(img, alpha, category="drinkware")
+    assert "split into" not in detail.get("ready_veto", [])
+    assert detail["topology"]["multi_instance"] is True
+    assert detail["topology"]["component_penalty"] == 0.0
+    assert any("multi-item composition" in r for r in reasons)
+
+
+def test_solidity_is_measured_correctly_for_a_perfect_rectangle():
+    """Regression: a 4-point contour must not score 0 solidity."""
+    alpha = np.zeros((300, 300), np.float32)
+    alpha[50:250, 60:240] = 1.0
+    _score, detail = quality.topology_signals(alpha, 0, CATEGORIES["wall_art"])
+    assert detail["solidity"] > 0.95, detail
 
 
 def test_ensemble_iou_is_reported_when_a_cross_check_is_supplied():

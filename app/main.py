@@ -42,6 +42,7 @@ from fastapi.staticfiles import StaticFiles
 from . import __version__
 from .batch import (BatchJob, ProcessOptions, WorkItem, jobs, parse_manifest, results_to_csv,
                     run_batch, summarise)
+from .labeling import router as labeling_router
 from .config import CATEGORIES, settings
 from .imaging import ImageLoadError
 from .pipeline import process_image
@@ -449,6 +450,18 @@ def artifact(job_id: str, filename: str) -> FileResponse:
 @app.exception_handler(ImageLoadError)
 async def _image_error(_request: Request, exc: ImageLoadError) -> JSONResponse:
     return JSONResponse(status_code=422, content={"detail": str(exc)})
+
+
+# Vòng lặp gán nhãn có người duyệt (/v1/labeling/*, giao diện ở /review).
+app.include_router(labeling_router)
+
+
+@app.get("/review", response_class=HTMLResponse, include_in_schema=False)
+def review_ui() -> HTMLResponse:
+    index = STATIC_DIR / "review.html"
+    if not index.exists():
+        raise HTTPException(404, "thieu review.html")
+    return HTMLResponse(index.read_text(encoding="utf-8"))
 
 
 # ------------------------------------------------------------------------- UI

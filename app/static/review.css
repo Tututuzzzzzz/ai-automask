@@ -1,0 +1,118 @@
+/* Công cụ duyệt nhãn phân vùng.
+   Nền tối cố ý: người duyệt phải nhìn ra viền alpha sai lệch vài pixel, và nền
+   sáng quanh vùng caro trong suốt làm việc đó khó hơn hẳn. */
+:root{
+  --bg:#0d0f13; --panel:#151a21; --panel2:#1b212a; --line:#262d38; --line2:#333c4a;
+  --fg:#e8ebf1; --dim:#98a2b0; --dim2:#6b7684;
+  --accent:#4c8dff;
+  --accept:#2ecc71; --fix:#f5a623; --reject:#e74c3c;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;height:100%}
+body{
+  background:var(--bg); color:var(--fg); overflow:hidden;
+  font:14px/1.5 ui-sans-serif,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+.spacer{flex:1}
+.mono,code{font-family:ui-monospace,"Cascadia Mono",Consolas,monospace}
+
+/* ---------------------------------------------------------------- top bar */
+.top{
+  display:flex; align-items:center; gap:18px; height:52px; padding:0 18px;
+  border-bottom:1px solid var(--line); background:var(--panel);
+}
+.brand b{font-size:15px; font-weight:650; letter-spacing:-.01em}
+.brand span{margin-left:9px; color:var(--dim); font-size:12.5px}
+.counters{display:flex; gap:8px}
+.counters .c{
+  display:flex; align-items:baseline; gap:6px; padding:3px 11px; border-radius:999px;
+  background:var(--panel2); border:1px solid var(--line); font-size:12px; color:var(--dim);
+}
+.counters .c b{font-size:14px; font-variant-numeric:tabular-nums; color:var(--fg)}
+.counters .c.accept b{color:var(--accept)}
+.counters .c.fix b{color:var(--fix)}
+.counters .c.reject b{color:var(--reject)}
+.saved{font-size:12px; color:var(--dim2); transition:color .2s}
+.saved.on{color:var(--accept)}
+
+/* ------------------------------------------------------------------ layout */
+main{display:flex; height:calc(100vh - 52px)}
+
+.list{
+  width:290px; flex:0 0 290px; border-right:1px solid var(--line);
+  display:flex; flex-direction:column; background:var(--panel);
+}
+.filters{display:flex; gap:3px; padding:9px; border-bottom:1px solid var(--line); flex-wrap:wrap}
+.chip{
+  background:none; border:0; color:var(--dim); border-radius:6px; padding:5px 10px;
+  font:inherit; font-size:12px; font-weight:560; cursor:pointer;
+}
+.chip:hover{color:var(--fg); background:var(--panel2)}
+.chip.active{background:var(--panel2); color:var(--fg); box-shadow:inset 0 0 0 1px var(--line2)}
+
+.list ol{list-style:none; margin:0; padding:6px; overflow-y:auto; flex:1}
+.list li{
+  display:flex; gap:9px; align-items:center; padding:6px 8px; border-radius:7px;
+  cursor:pointer; border:1px solid transparent;
+}
+.list li:hover{background:var(--panel2)}
+.list li.sel{background:var(--panel2); border-color:var(--accent)}
+.list li img{width:42px; height:42px; object-fit:contain; border-radius:5px; background:#20242c}
+.list li .n{flex:1; min-width:0}
+.list li .n .t{font-size:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.list li .n .s{font-size:11px; color:var(--dim2); font-variant-numeric:tabular-nums}
+.dot{width:8px; height:8px; border-radius:99px; background:var(--line2); flex:0 0 8px}
+.dot.accept{background:var(--accept)} .dot.fix{background:var(--fix)} .dot.reject{background:var(--reject)}
+
+/* ------------------------------------------------------------------- stage */
+.stage{flex:1; display:flex; flex-direction:column; min-width:0}
+.stagebar{
+  display:flex; align-items:center; gap:14px; padding:9px 16px;
+  border-bottom:1px solid var(--line); background:var(--panel);
+}
+.meta{font-size:12.5px; color:var(--dim)}
+.meta b{color:var(--fg); font-weight:600}
+.modes{display:flex; gap:3px; background:var(--panel2); border:1px solid var(--line);
+  border-radius:8px; padding:3px}
+.opacity{display:flex; align-items:center; gap:8px; font-size:12px; color:var(--dim)}
+input[type=range]{accent-color:var(--accent); width:110px}
+
+.canvaswrap{
+  flex:1; position:relative; overflow:hidden; display:grid; place-items:center;
+  background-color:#0a0c10;
+  background-image:linear-gradient(45deg,#141920 25%,transparent 25%,transparent 75%,#141920 75%),
+                   linear-gradient(45deg,#141920 25%,#0a0c10 25%,#0a0c10 75%,#141920 75%);
+  background-size:22px 22px; background-position:0 0,11px 11px;
+}
+canvas{display:block; cursor:crosshair; image-rendering:auto; box-shadow:0 8px 40px -12px #000}
+.canvaswrap.panning canvas{cursor:grab}
+.hint{position:absolute; color:var(--dim2); font-size:13px; pointer-events:none}
+
+/* ------------------------------------------------------------------- tools */
+.tools{
+  display:flex; align-items:center; gap:14px; padding:10px 16px;
+  border-top:1px solid var(--line); background:var(--panel); flex-wrap:wrap;
+}
+.group{display:flex; gap:4px}
+.tool{
+  background:var(--panel2); color:var(--fg); border:1px solid var(--line2);
+  border-radius:7px; padding:7px 12px; font:inherit; font-size:12.5px; cursor:pointer;
+}
+.tool:hover{border-color:var(--accent)}
+.tool.active{background:var(--accent); border-color:var(--accent); color:#fff}
+.brushsize{display:flex; align-items:center; gap:8px; font-size:12px; color:var(--dim)}
+.brushsize span{font-variant-numeric:tabular-nums; color:var(--fg); width:26px}
+.verdicts .verdict{
+  border:1px solid var(--line2); border-radius:7px; padding:8px 16px; font:inherit;
+  font-size:13px; font-weight:600; cursor:pointer; background:var(--panel2); color:var(--fg);
+}
+.verdict.accept:hover{background:var(--accept); border-color:var(--accept); color:#05230f}
+.verdict.fix:hover{background:var(--fix); border-color:var(--fix); color:#241701}
+.verdict.reject:hover{background:var(--reject); border-color:var(--reject); color:#fff}
+.verdict:disabled{opacity:.4; cursor:not-allowed}
+
+.keys{margin:0; padding:7px 16px 10px; font-size:11.5px; color:var(--dim2);
+  border-top:1px solid var(--line); background:var(--panel)}
+.keys b{color:var(--dim); font-family:ui-monospace,Consolas,monospace;
+  background:var(--panel2); border:1px solid var(--line); border-radius:4px; padding:1px 5px}
